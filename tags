@@ -6,6 +6,8 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	//
+Backstory	README.md	/^## Backstory$/;"	s
+Battleship	README.md	/^# Battleship$/;"	c
 Battleship	makefile	/^Battleship:$/;"	t
 CC	makefile	/^CC=gcc$/;"	m
 CFLAGS	makefile	/^CFLAGS=-std=c99 -Wall -Wextra$/;"	m
@@ -15,6 +17,7 @@ ELOG	src/elog.c	/^typedef struct ELOG$/;"	s	file:
 ENTRY_DEFAULT	src/elog.c	/^#define ENTRY_DEFAULT /;"	d	file:
 ENTRY_LENGTH	src/elog.c	/^#define ENTRY_LENGTH /;"	d	file:
 ENTRY_NUM	src/elog.c	/^#define ENTRY_NUM /;"	d	file:
+Features	README.md	/^## Features$/;"	s
 HIT	src/maps.c	/^#define HIT /;"	d	file:
 MISS	src/maps.c	/^#define MISS /;"	d	file:
 Map	src/maps.c	/^	int Map[10][10]; \/\/ coord and state of each tile$/;"	m	struct:radar	typeref:typename:int[10][10]	file:

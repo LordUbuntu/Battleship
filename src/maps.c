@@ -10,6 +10,25 @@
 #define MISS 2
 typedef int map[10][10];
 
+void print_map(map map)
+{
+	printf("\n");
+	for ( int y = 0; y < 10; y++ )
+	{
+		printf("{");
+		for ( int x = 0; x < 10; x++ )
+		{
+			if ( map[y][x] == NONE )
+				printf("%c", '~');
+			if ( map[y][x] == HIT )
+				printf("%c", '*');
+			if ( map[y][x] == MISS )
+				printf("%c", '@');
+		}
+		printf("}\n");
+	}
+
+}
 
 
 
@@ -40,8 +59,20 @@ typedef struct BOARD
 	ship* pieces; // knowledge of player pieces
 } board;
 
+// TODO test this function
 // creates a board struct with default parameters
-board init_board(ship* pieces, int num_pieces);
+board init_board(ship* pieces, int num_pieces)
+{
+	board* bo = calloc(sizeof(board) + sizeof(pieces) * num_pieces, 1);
+
+	bo->pieces = pieces;
+
+	board b = *bo;
+
+	free(bo);
+
+	return b;
+}
 
 
 

@@ -52,5 +52,6 @@ typedef struct Ship
 
 // creates a ship struct with default parameters
 ship init_ship(char* name, int size, bool vert, int start_x, int start_y);
+void print_ship(ship s);
 
 #endif /* ifndef SHIP_H */

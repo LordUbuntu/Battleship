@@ -9,10 +9,6 @@ test:
 Battleship:
 	$(CC) $(CFLAGS) $(COPTS) src/main.c -o Battleship
 
-
-
-
-
 .PHONY:
 clean:
 	rm -f test Battleship

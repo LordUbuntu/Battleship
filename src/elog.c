@@ -24,7 +24,7 @@
 
 #define ENTRY_NUM 10 // the number of entries the elog contains
 #define ENTRY_LENGTH 20 // the number of characters each entry can contain
-#define ENTRY_DEFAULT "`.`````````````````" // the default entry
+#define ENTRY_DEFAULT " .                 " // the default entry
 
 typedef struct ELOG
 { // records log of events

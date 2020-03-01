@@ -8,6 +8,10 @@
 #define NONE 0
 #define HIT 1
 #define MISS 2
+#define NONE_CHAR ' '
+#define HIT_CHAR '*'
+#define MISS_CHAR '@'
+#define SUNK_CHAR '~'
 typedef int map[10][10];
 
 void print_map(map map)
@@ -19,11 +23,11 @@ void print_map(map map)
 		for ( int x = 0; x < 10; x++ )
 		{
 			if ( map[y][x] == NONE )
-				printf("%c", '~');
+				printf("%c", NONE_CHAR);
 			if ( map[y][x] == HIT )
-				printf("%c", '*');
+				printf("%c", HIT_CHAR);
 			if ( map[y][x] == MISS )
-				printf("%c", '@');
+				printf("%c", MISS_CHAR);
 		}
 		printf("}\n");
 	}

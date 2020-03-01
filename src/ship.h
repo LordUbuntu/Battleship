@@ -30,6 +30,7 @@
 #ifndef SHIP_H
 #define SHIP_H
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct ShipData
 { // records information about the ship

@@ -1,19 +1,39 @@
-// This file contains functions to test the functions and structs of other files in the project
+// This file contains functions to test other files
 #include "maps.c"
 #include "elog.c"
 #include "ship.c"
 
 void
+print_ship(ship s)
+{
+	// print name and state of ship s
+	printf( "%s, %s, %li\n", s.d.name, (s.d.sunk ? "sunk" : "floating"), s.d.size );
+
+	// print coord and state of each pos at index i
+	for ( int i = 0; (size_t) i < s.d.size; i++ )
+	{
+		printf( "(%i, %i, %c)\n", s.p[i].x, s.p[i].y, (s.p[i].hit ? 'T' : 'F') );
+	}
+}
+
+void
+test_ship(void)
+{
+	ship s = init_ship("Carrier", 5, true, 3, 1);
+	print_ship(s);
+}
+
+void
 print_radar(radar r, int num_pieces)
 {
-	printf("RADAR TEST: \n");
+	puts("RADAR TEST");
 
 	print_map(r.map);
 
 	// print pieces
 	for ( int i = 0; i < num_pieces; i++ )
 	{
-		printf("piece[%i]: %s, %i, %li\n", i, r.pieces[i].name, r.pieces[i].sunk, r.pieces[i].size);
+		printf("piece[%i]: %s, %c, %li\n", i, r.pieces[i].name, (r.pieces[i].sunk ? 'T' : 'F'), r.pieces[i].size);
 	}
 
 	printf("\n");
@@ -65,63 +85,30 @@ print_board(board b, int num_pieces)
 
 	// print pieces
 	for ( int i = 0; i < num_pieces; i++ )
-	{
-		printf("piece[%i]: %s, %i, %li\n", i, b.pieces[i].d.name, b.pieces[i].d.sunk, b.pieces[i].d.size);
-		for ( int i = 0; (size_t) i < b.pieces[i].d.size; i++ )
-		{
-			// XXX for some reason this displays all position data as 0 with all
-			//      position arrays being the same size
-			printf( "(%i, %i, %c)\n", b.pieces[i].p[i].x, b.pieces[i].p[i].y, (b.pieces[i].p[i].hit ? 'T' : 'F') );
-		}
-	}
+		print_ship(b.pieces[i]);
 
 	printf("\n");
 }
 
-// TODO complete and test
 void
 test_board(void)
 {
-	ship piece1 = init_ship("Ship A", 5, false, 3, 1);
-	ship piece2 = init_ship("Ship B", 4, false, 5, 1);
-	ship piece3 = init_ship("Ship C", 3, false, 7, 1);
-	ship piece_arr[3] = { piece1, piece2, piece3 };
-	board b = init_board(piece_arr, 3);
-	print_board(b, 3);
-}
+	ship a = init_ship("Ship A", 5, false, 3, 1);
+	ship b = init_ship("Ship B", 4, true, 5, 3);
+	ship c = init_ship("Ship C", 3, true, 7, 3);
 
-void
-test_ship(void)
-{
-	puts("test ship create ship s");
-	ship s = init_ship("Carrier", 5, true, 3, 1);
-	puts("test ship print ship s");
-	print_ship(s);
-}
+	ship arr[3] = {a, b, c};
+	board B = init_board(arr, 3);
 
-void
-print_ship(ship s)
-{
-	// print name and state of ship s
-	printf( "%s, %s, %li\n", s.d.name, (s.d.sunk ? "sunk" : "floating"), s.d.size );
-
-	// print coord and state of each pos at index i
-	for ( int i = 0; (size_t) i < s.d.size; i++ )
-	{
-		printf( "(%i, %i, %c)\n", s.p[i].x, s.p[i].y, (s.p[i].hit ? 'T' : 'F') );
-	}
+	print_board(B, 3);
 }
 
 int
 main(void)
 {
-	puts("create ship s");
-	ship s = init_ship("Ship A", 5, true, 2, 1);    // XXX pos is not garbage here
-
-	puts("print ship s");
-	print_ship(s);                                  // but it is here
-
-	puts("run test_ship");
-	test_ship();                                    // and here
+	test_ship();
+	test_radar();
+	test_elog();
+	test_board();
 	return 0;
 }

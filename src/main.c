@@ -2,8 +2,13 @@
 //#include "network.c"
 //#include "graphical.c"
 
+// draws current state of structures
+void
+render(void);
+
+// calculates game logic and updates state of structures
 int
-main(void)
-{
-	return 0;
-}
+update(void);
+
+int
+main(void);

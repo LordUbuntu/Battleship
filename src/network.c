@@ -1,3 +1,4 @@
+// TODO
 
 
 
@@ -14,8 +15,3 @@
 //     - if not, update C2 ship collection data, check if ship was sunk, collect all that data, then send a response message to C1
 //   - If MISS, C2
 //     - sends a response message to C1
-
-
-
-
-

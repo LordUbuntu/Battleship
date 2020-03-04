@@ -1,6 +1,6 @@
-//#include "maps.c"
-//#include "network.c"
-//#include "graphical.c"
+#include "maps.c"
+#include "network.c"
+#include "graphics.c"
 
 // draws current state of structures
 void

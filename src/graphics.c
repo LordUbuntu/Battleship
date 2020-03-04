@@ -1,3 +1,4 @@
+// TODO
 // Main file for ncurses display management (and also input for the moment)
 #include <ncurses.h>
 #include "maps.c"
@@ -19,7 +20,7 @@ draw_board(board B);
 void
 draw_radar(radar R);
 
-// print elog info to ncurses elog
+// print elog info
 void
 draw_elog(elog E);
 

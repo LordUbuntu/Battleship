@@ -11,7 +11,7 @@ init_ship(char* name, int size, bool vert, int start_x, int start_y)
 	// allocate memory for temporary ship struct
 	ship* temp_ship = calloc(sizeof(ship) + sizeof(pos*), 1);
 
-	// allocate runtime permanent array of positions for said struct
+	// allocate runtime-permanent array of positions for said struct
 	pos* positions = calloc(sizeof(pos), size);
 
 	// set temporary ship struct parameters
@@ -36,11 +36,4 @@ init_ship(char* name, int size, bool vert, int start_x, int start_y)
 
 	// return final ship struct
 	return s;
-}
-
-// TODO create destructors to collect everything after the game is done
-void
-free_ship_posns(ship s)
-{
-	free(s.p);
 }

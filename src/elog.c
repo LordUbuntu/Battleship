@@ -32,7 +32,6 @@ typedef struct ELOG
 	char evlog[ENTRY_NUM][ENTRY_LENGTH]; // the log itself
 } elog;
 
-// creates an elog struct with default parameters
 elog
 init_elog(void)
 {
@@ -51,7 +50,6 @@ init_elog(void)
 	return e;
 }
 
-// takes a pointer to an elog structure and a string and adds that string to the log at the current index
 void
 add_elog_entry(elog* e, char entry[static ENTRY_LENGTH])
 {
@@ -60,7 +58,4 @@ add_elog_entry(elog* e, char entry[static ENTRY_LENGTH])
 
 	// increment index
 	e->index = (e->index + 1) % ENTRY_NUM;
-
-	// prepare current index
-	//memcpy(e->evlog[e->index], ENTRY_DEFAULT, sizeof(char) * ENTRY_LENGTH);
 }

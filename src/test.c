@@ -1,7 +1,8 @@
-// This file contains functions to test other files
-#include "maps.c"
+// functions and methods to test files
+#include "maps.c" // TODO split off into a header file
 #include "elog.c"
 #include "ship.c"
+#include "logic.c"
 
 void
 print_ship(ship s)
@@ -21,6 +22,62 @@ test_ship(void)
 {
 	ship s = init_ship("Carrier", 5, true, 3, 1);
 	print_ship(s);
+}
+
+void
+print_elog(elog e)
+{
+	printf("EVENT LOG TEST: \n");
+
+	for ( int i = 0; i < ENTRY_NUM; i++ )
+		printf("[%i] %s\n", i, e.evlog[i]);
+	printf("\n");
+}
+
+void
+test_elog(void)
+{
+	elog e = init_elog();
+	e.index = ENTRY_NUM - 2;
+	print_elog(e);
+	for ( int i = 0; i < 3; i++ )
+		add_elog_entry(&e, "New Entry!");
+	print_elog(e);
+}
+
+#define NONE_CHAR ' '
+#define HIT_CHAR '*'
+#define MISS_CHAR '@'
+#define SUNK_CHAR '~'
+void print_map(map map)
+{
+	printf("\n");
+	for ( int y = 0; y < 10; y++ )
+	{
+		printf("{");
+		for ( int x = 0; x < 10; x++ )
+		{
+			if ( map[y][x] == NONE )
+				printf("%c", NONE_CHAR);
+			if ( map[y][x] == HIT )
+				printf("%c", HIT_CHAR);
+			if ( map[y][x] == MISS )
+				printf("%c", MISS_CHAR);
+		}
+		printf("}\n");
+	}
+
+}
+
+void
+pin(map m, int y, int x)
+{
+	if ( m[y][x] == MISS || m[y][x] == HIT )
+		return;
+	else
+	{
+		m[y][x] = HIT;
+	}
 }
 
 void
@@ -56,27 +113,6 @@ test_radar(void)
 }
 
 void
-print_elog(elog e)
-{
-	printf("EVENT LOG TEST: \n");
-
-	for ( int i = 0; i < ENTRY_NUM; i++ )
-		printf("[%i] %s\n", i, e.evlog[i]);
-	printf("\n");
-}
-
-void
-test_elog(void)
-{
-	elog e = init_elog();
-	e.index = ENTRY_NUM - 2;
-	print_elog(e);
-	for ( int i = 0; i < 3; i++ )
-		add_elog_entry(&e, "New Entry!");
-	print_elog(e);
-}
-
-void
 print_board(board b, int num_pieces)
 {
 	printf("BOARD TEST:\n");
@@ -100,6 +136,10 @@ test_board(void)
 	ship arr[3] = {a, b, c};
 	board B = init_board(arr, 3);
 
+	pin(B.map, 0, 3);
+	pin(B.map, 0, 3);
+	pin(B.map, 1, 3);
+
 	print_board(B, 3);
 }
 
@@ -107,8 +147,8 @@ int
 main(void)
 {
 	test_ship();
-	test_radar();
 	test_elog();
+	test_radar();
 	test_board();
 	return 0;
 }

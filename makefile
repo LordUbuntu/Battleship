@@ -1,14 +1,22 @@
-CC=gcc
-CFLAGS=-std=c99 -Wall -Wextra
-CLIBS=-lncurses
-COPTS=-O2
+CC=clang
+FLAGS=-std=c99 -Wall -Wextra
+LIBS=-lncurses
 
-test:
-	$(CC) $(CFLAGS) src/test.c -o test
 
-Battleship:
-	$(CC) $(CFLAGS) $(COPTS) src/main.c -o Battleship
+debug:
+	$(CC) $(FLAGS) -Og -ggdb $(LIBS) src/main.c -o debug
+
+battleship:
+	$(CC) $(FLAGS) $(LIBS) src/main.c -o battleship
+
+
+debug-nocurses:
+	$(CC) $(FLAGS) -Og -ggdb src/main.c -o debug-noc
+
+battleship-nocurses:
+	$(CC) $(FLAGS) $(LIBS) src/main.c -o battleship-noc
+
 
 .PHONY:
-clean:
-	rm -f test Battleship
+	clean:
+		rm debug battleship debug-noc battleship-noc

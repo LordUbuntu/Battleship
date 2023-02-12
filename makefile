@@ -14,7 +14,7 @@ debug-nocurses:
 	$(CC) $(FLAGS) -Og -ggdb src/main.c -o debug-noc
 
 battleship-nocurses:
-	$(CC) $(FLAGS) $(LIBS) src/main.c -o battleship-noc
+	$(CC) $(FLAGS) src/main.c -o battleship-noc
 
 
 .PHONY:

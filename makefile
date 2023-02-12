@@ -9,14 +9,6 @@ debug:
 battleship:
 	$(CC) $(FLAGS) $(LIBS) src/main.c -o battleship
 
-
-debug-nocurses:
-	$(CC) $(FLAGS) -Og -ggdb src/main.c -o debug-noc
-
-battleship-nocurses:
-	$(CC) $(FLAGS) src/main.c -o battleship-noc
-
-
 .PHONY:
 	clean:
 		rm debug battleship debug-noc battleship-noc

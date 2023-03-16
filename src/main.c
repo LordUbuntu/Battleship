@@ -1,8 +1,10 @@
 #include "network.c"
+#include "graphics.c"
 
 
 int main(void) {
         // init curses graphics
+        init_ncurses();
         // render main screen
         //   if user selects single player
         //     render game screen
@@ -15,4 +17,6 @@ int main(void) {
         //       return to main screen when game is done
         //   if player selects help, render help screen
         //   if player selects quit, end program
+        // stop curses graphics
+        stop_ncurses();
 }

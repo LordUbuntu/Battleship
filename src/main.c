@@ -1,7 +1,21 @@
 #include "network.c"
 #include "graphics.c"
 #include "data.h"
+#include <assert.h>
+#include <string.h>
 
+
+ship make_ship(char *name, size_t size, pos front, pos back) {
+        // preconditions
+        // - size less than MAX_SHIP_LEN
+        // - name less than or equal to 10
+        // - front and back pos are aligned along dX or dY, not diagonal
+        assert (size <= MAX_SHIP_LEN);
+        assert (strlen(name) <= MAX_SHIP_NAME_LEN);
+        assert ((front.x == back.x && front.y != back.y) || (front.x != back.x && front.y == back.y));
+        ship s = {0, size, front, back, *name};
+        return s;
+}
 
 
 int main(void) {

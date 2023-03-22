@@ -18,12 +18,14 @@ typedef struct POS {
 
 
 // representation of ship data during game
+#define MAX_SHIP_LEN 5
+#define MAX_SHIP_NAME_LEN 10
 typedef struct SHIP {
-        unsigned sunk : 1;      // whether the ship is sunk/gone
-        unsigned health : 3;    // how many ship tiles aren't hit
-        pos front;              // (x,y) pos of ship front
-        pos back;               // (x,y) pos of ship back
-        char name[10];          // name of ship type
+        unsigned sunk : 1;              // whether the ship is sunk/gone
+        unsigned health : 3;            // how many ship tiles aren't hit
+        pos front;                      // (x,y) pos of ship front
+        pos back;                       // (x,y) pos of ship back
+        char name[MAX_SHIP_NAME_LEN];   // name of ship type
 } ship;
 
 

@@ -1,5 +1,7 @@
 #include "network.c"
 #include "graphics.c"
+#include "data.h"
+
 
 
 int main(void) {

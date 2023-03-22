@@ -2,16 +2,7 @@
 #include "graphics.c"
 #include "data.h"
 
-
-ship make_ship(char *name, size_t size, unsigned fx, unsigned fy, unsigned bx, unsigned by) {
-        // preconditions
-        // - size less than MAX_SHIP_LEN
-        // - name less than or equal to 10
-        // - front and back pos are aligned along dX or dY, not diagonal
-        ship s = {0, size, {fx, fy}, {bx, by}, *name};
-        return s;
-}
-
+ship *gen_ships(void);
 
 int main(void) {
         // init curses graphics
@@ -30,5 +21,13 @@ int main(void) {
         //   if player selects quit, end program
         // stop curses graphics
         stop_ncurses();
-        ship s = make_ship("Battleship", 5, 0, 2, 0, 3);
+}
+
+
+ship* starting_set(void) {
+        ship ships[5];
+        ship battleship = {FALSE, 5, {0, 0}, {0, 0}, "Battleship"};
+        // TODO add more ships
+        // to fix address pointer warning, set this variable to be static, or allocate memory in main and then free it later.
+        return ships;
 }

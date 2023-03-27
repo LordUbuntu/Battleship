@@ -2,8 +2,6 @@
 #include "graphics.c"
 #include "data.h"
 
-ship *gen_ships(void);
-
 int main(void) {
         // init curses graphics
         init_ncurses();
@@ -24,10 +22,6 @@ int main(void) {
 }
 
 
-ship* starting_set(void) {
-        ship ships[5];
-        ship battleship = {FALSE, 5, {0, 0}, {0, 0}, "Battleship"};
+void starting_set(ship ships[static 5]) {
         // TODO add more ships
-        // to fix address pointer warning, set this variable to be static, or allocate memory in main and then free it later.
-        return ships;
 }

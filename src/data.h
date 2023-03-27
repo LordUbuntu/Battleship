@@ -23,8 +23,8 @@ typedef struct {
 typedef struct {
         unsigned sunk : 1;              // whether the ship is sunk/gone
         unsigned health : 3;            // how many ship tiles aren't hit
-        const pos front;                      // (x,y) pos of ship front
-        const pos back;                       // (x,y) pos of ship back
+        pos front;                      // (x,y) pos of ship front
+        pos back;                       // (x,y) pos of ship back
         const char name[MAX_SHIP_NAME_LEN];   // name of ship type
 } ship;
 

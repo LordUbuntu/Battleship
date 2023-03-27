@@ -11,7 +11,7 @@
 
 
 // (x, y) position
-typedef struct POS {
+const typedef struct {
         unsigned x : 4;
         unsigned y : 4;
 } pos;

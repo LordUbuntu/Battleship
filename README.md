@@ -5,6 +5,8 @@ A game of strategy on the high sea!
 
 Many of my fondest memories of strategy games come from the game of Battleship. Considering its simple mechanics and fun play I though it a good candidate for a C project.
 
+Following the "Question Driven Development" process this time around.
+
 ## Features
 
 The feature list for the **MVP** would be as follows.

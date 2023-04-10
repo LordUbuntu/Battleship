@@ -22,6 +22,13 @@ int main(void) {
 }
 
 
-void starting_set(ship ships[static 5]) {
-        // TODO add more ships
+ship *init_ships() {
+        static ship ships[5] = {
+                {FALSE, 2, {0,0}, {0,0}, "Destroyer"},
+                {FALSE, 3, {0,0}, {0,0}, "Submarine"},
+                {FALSE, 3, {0,0}, {0,0}, "Cruiser"},
+                {FALSE, 4, {0,0}, {0,0}, "Battleship"},
+                {FALSE, 5, {0,0}, {0,0}, "Carrier"},
+        };
+        return ships;
 }

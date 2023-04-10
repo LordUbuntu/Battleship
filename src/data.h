@@ -19,7 +19,7 @@ typedef struct {
 
 // representation of ship data during game
 #define MAX_SHIP_LEN 5
-#define MAX_SHIP_NAME_LEN 10
+#define MAX_SHIP_NAME_LEN 11
 typedef struct {
         unsigned sunk : 1;              // whether the ship is sunk/gone
         unsigned health : 3;            // how many ship tiles aren't hit

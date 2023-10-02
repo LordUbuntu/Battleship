@@ -24,14 +24,14 @@ render_ships(ship *ships) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
-                int x, y = s.front.x, s.front.y;
-                for(int x, y = s.front.x, s.front.y
-                   ;x < s.back.x, y < s.back.y
-                   ;x++, y++) {
-                        mvaddch(y, x, SHIP_CHAR);
+                int x = s.front.x, y = s.front.y;
+                while (x <= s.back.x && y <= s.back.y) {
+                        int status = mvaddch(y++, x++, SHIP_CHAR);
+                        if (status) return status;
                         getch();  // for debugging
                 }
         }
+        return 0;
 }
 
 

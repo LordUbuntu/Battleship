@@ -3,6 +3,7 @@
  *   state. 
  * This is just a draft of expected ADTs for now...
  */
+#pragma once
 
 
 // NOTE: the visual representation of the board is updated one

@@ -1,13 +1,28 @@
+#include <string.h>
 #include "network.c"
 #include "graphics.c"
 #include "data.h"
 
+
+void init_ships(ship *ships_arr) {
+        static ship ships[NUM_SHIPS] = {
+                {FALSE, 2, {0,0}, {2,0}, "Destroyer"},
+                {FALSE, 3, {0,1}, {3,1}, "Submarine"},
+                {FALSE, 3, {0,2}, {3,2}, "Cruiser"},
+                {FALSE, 4, {0,3}, {4,3}, "Battleship"},
+                {FALSE, 5, {0,4}, {5,4}, "Carrier"},
+        };
+        memcpy(ships_arr, ships, sizeof(ship));
+}
+
+
 int main(void) {
         // init curses graphics
         init_ncurses();
-        // WARN: simulate game
-        ship ships[NUM_SHIPS] = init_ships();
-        render_ships(ships, NUM_SHIPS);
+        // NOTE: temp example
+        ship ships[NUM_SHIPS];
+        init_ships(ships);
+        render_ships(ships);
         // render main screen
         //   if user selects single player
         //     render game screen
@@ -22,16 +37,4 @@ int main(void) {
         //   if player selects quit, end program
         // stop curses graphics
         stop_ncurses();
-}
-
-
-ship *init_ships() {
-        static ship ships[5] = {
-                {FALSE, 2, {0,0}, {0,0}, "Destroyer"},
-                {FALSE, 3, {0,0}, {0,0}, "Submarine"},
-                {FALSE, 3, {0,0}, {0,0}, "Cruiser"},
-                {FALSE, 4, {0,0}, {0,0}, "Battleship"},
-                {FALSE, 5, {0,0}, {0,0}, "Carrier"},
-        };
-        return ships;
 }

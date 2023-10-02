@@ -18,6 +18,7 @@ typedef struct {
 
 
 // representation of ship data during game
+#define NUM_SHIPS 5
 #define MAX_SHIP_LEN 5
 #define MAX_SHIP_NAME_LEN 11
 typedef struct {
@@ -32,7 +33,7 @@ typedef struct {
 // 10x10 player and opponent board
 #define WATER 0
 #define SHIP 1
-typedef char map[10][10];       
+typedef char map[10][10];
 
 
 // list of tiles that have been tried ("pinned")

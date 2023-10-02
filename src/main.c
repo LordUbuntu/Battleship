@@ -5,6 +5,9 @@
 int main(void) {
         // init curses graphics
         init_ncurses();
+        // WARN: simulate game
+        ship ships[NUM_SHIPS] = init_ships();
+        render_ships(ships, NUM_SHIPS);
         // render main screen
         //   if user selects single player
         //     render game screen

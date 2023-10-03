@@ -20,22 +20,22 @@ init_ncurses(void)
 
 
 int
-render_ships(ship *ships) {
+render_ships(ship *ships, WINDOW *win) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
                 // position cursor to draw ship
-                move(s.front.y, s.front.x);
+                wmove(win, s.front.y + 1, s.front.x + 1);
                 // determine orientation
                 if (s.back.x - s.front.x == 0) {
                         // draw vertical line
-                        vline(SHIP_CHAR, s.back.y - s.front.y);
+                        wvline(win, SHIP_CHAR, s.back.y - s.front.y);
                 } else {
                         // draw horizontal line
-                        hline(SHIP_CHAR, s.back.x - s.front.x);
+                        whline(win, SHIP_CHAR, s.back.x - s.front.x);
                 }
-                getch();
         }
+        wrefresh(win);
         return 0;
 }
 

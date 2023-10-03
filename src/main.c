@@ -20,9 +20,13 @@ int main(void) {
         // init curses graphics
         init_ncurses();
         // NOTE: temp example
+        //                    w,  h, y, x
+        WINDOW *player_board = newwin(12, 12, 4, 2);
+        wborder(player_board, '|', '|', '-', '-', '+', '+', '+', '+');
         ship ships[NUM_SHIPS];
         init_ships(ships);
-        render_ships(ships);
+        render_ships(ships, player_board);
+        wgetch(player_board);
         // render main screen
         //   if user selects single player
         //     render game screen

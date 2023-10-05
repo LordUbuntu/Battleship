@@ -4,6 +4,10 @@
 #include "data.h"
 
 
+// NOTE:
+// A principle of design in this program is the division between data and fuction, and what is rendered. What is rendered is based on the current state of data, that data is changed by the opertion of procedures. This loosely follows the update and draw loop design common in a lot of games.
+
+
 void init_ships(ship *ships_arr) {
         static ship ships[NUM_SHIPS] = {
                 {FALSE, 2, {0,0}, {2,0}, "Destroyer"},
@@ -19,14 +23,42 @@ void init_ships(ship *ships_arr) {
 int main(void) {
         // init curses graphics
         init_ncurses();
-        // NOTE: temp example
-        //                    w,  h, y, x
+
+
+        // render empty player board
+        //                             w,  h, y, x
         WINDOW *player_board = newwin(12, 12, 4, 2);
         wborder(player_board, '|', '|', '-', '-', '+', '+', '+', '+');
+        wrefresh(player_board);
+
+        // render empty input box
+        WINDOW *text_box = newwin(3, COLS, LINES - 3, 0);
+        wborder(text_box, '|', '|', '-', '-', '+', '+', '+', '+');
+        wmove(text_box, 1, 1);
+        wprintw(text_box, "Coordinate...");
+        wrefresh(text_box);
+
+        // get input box input
+        char msg[3];
+        wgetstr(text_box, msg);
+        msg[2] = '\n';
+        wmove(text_box, 1, 1);
+        wprintw(text_box, "Strike: %.2s", msg);
+        wrefresh(text_box);
+
+        // show actual coordinates
+        wmove(text_box, 1, 1);
+        wprintw(text_box, "Coordinate is: %iy %ix", (msg[0] - 0x41 + 1), (msg[1] - 0x30));
+        wrefresh(text_box);
+
+        // initialize and render ships
         ship ships[NUM_SHIPS];
         init_ships(ships);
         render_ships(ships, player_board);
-        wgetch(player_board);
+
+        wgetch(text_box);
+
+
         // render main screen
         //   if user selects single player
         //     render game screen

@@ -1,13 +1,12 @@
 #include <ncurses.h>
 #include "data.h"
+#pragma once
 
 
 #define SHIP_CHAR '#'
 
 
-int
-init_ncurses(void)
-{
+void init_ncurses(void) {
         initscr();
         curs_set(FALSE);
         noecho();
@@ -15,12 +14,10 @@ init_ncurses(void)
         start_color();
         intrflush(stdscr, FALSE);
         keypad(stdscr, TRUE);
-        return 0;
 }
 
 
-int
-render_ships(ship *ships, WINDOW *win) {
+int render_ships(WINDOW *win, ship *ships) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
@@ -40,13 +37,10 @@ render_ships(ship *ships, WINDOW *win) {
 }
 
 
-int
-stop_ncurses(void)
-{
+void stop_ncurses(void) {
         clear();
         curs_set(TRUE);
         echo();
         nocbreak();
         endwin();
-        return 0;
 }

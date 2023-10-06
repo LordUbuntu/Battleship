@@ -2,6 +2,17 @@ NOTES:
 - SHIFT + K over a symbol to see its manual
 - Plan, Design, then Develop
 
+PLAN:
+- initialize data in main function (start/init)
+- parse ommand line arguments
+- start ncurses
+- while the game loop is running
+  - update graphics   (render)
+  - handle user input (input)
+  - update game state (update)
+- end ncurses
+
+
 DESIGN:
   FUNCTIONS:
   - pass pointers to structs and other data entities
@@ -12,5 +23,6 @@ DESIGN:
   GENERAL:
   - initial data structures like intial board position and the like will be initialized at compile time as global variables and macros
 
+
+
 TODO:
-- redesign to use game loop proper (should draw and update be seperate, or should each action handle draw and update at once?)

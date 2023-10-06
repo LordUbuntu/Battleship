@@ -54,8 +54,8 @@ int main(void) {
         wrefresh(text_box);
 
         // initialize and render ships
-        ship ships[NUM_SHIPS] = DEFAULT_SHIPS;
-        render_ships(ships, player_board);
+        ship player_ships[NUM_SHIPS] = DEFAULT_SHIPS;
+        render_ships(player_board, player_ships);
 
         wgetch(text_box);
 

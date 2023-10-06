@@ -20,15 +20,21 @@ typedef struct {
 
 // representation of ship data during game
 #define NUM_SHIPS 5
-#define MAX_SHIP_LEN 5
-#define MAX_SHIP_NAME_LEN 11
 typedef struct {
-        unsigned sunk : 1;              // whether the ship is sunk/gone
-        unsigned health : 3;            // how many ship tiles aren't hit
-        pos front;                      // (x,y) pos of ship front
-        pos back;                       // (x,y) pos of ship back
-        const char name[MAX_SHIP_NAME_LEN];   // name of ship type
+        unsigned sunk : 1;      // whether the ship is sunk/gone
+        unsigned health : 3;    // how many ship tiles aren't hit
+        pos front;              // (x,y) pos of ship front
+        pos back;               // (x,y) pos of ship back
+        const char name[11];    // name of ship type
 } ship;
+// default ship set
+#define DEFAULT_SHIPS {                         \
+        {FALSE, 2, {0,0}, {2,0}, "Destroyer"},  \
+        {FALSE, 3, {0,1}, {3,1}, "Submarine"},  \
+        {FALSE, 3, {0,2}, {3,2}, "Cruiser"},    \
+        {FALSE, 4, {0,3}, {4,3}, "Battleship"}, \
+        {FALSE, 5, {0,4}, {5,4}, "Carrier"},    \
+}
 
 
 // 10x10 player and opponent board

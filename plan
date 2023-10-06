@@ -1,0 +1,11 @@
+NOTES:
+- SHIFT + K over a symbol to see its manual
+- Plan, Design, then Develop
+
+DESIGN:
+- pass pointers to structs and other data entities
+- functions of form 'int f(T in, T *out)'
+- data-oriented design, structs capture game state and types, references to data types are passed around and modified by functions they're passed to
+
+TODO:
+- redesign to use game loop proper (should draw and update be seperate, or should each action handle draw and update at once?)

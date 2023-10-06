@@ -4,22 +4,6 @@
 #include "data.h"
 
 
-// NOTE:
-// A principle of design in this program is the division between data and fuction, and what is rendered. What is rendered is based on the current state of data, that data is changed by the opertion of procedures. This loosely follows the update and draw loop design common in a lot of games.
-
-
-void init_ships(ship *ships_arr) {
-        static ship ships[NUM_SHIPS] = {
-                {FALSE, 2, {0,0}, {2,0}, "Destroyer"},
-                {FALSE, 3, {0,1}, {3,1}, "Submarine"},
-                {FALSE, 3, {0,2}, {3,2}, "Cruiser"},
-                {FALSE, 4, {0,3}, {4,3}, "Battleship"},
-                {FALSE, 5, {0,4}, {5,4}, "Carrier"},
-        };
-        memcpy(ships_arr, ships, sizeof(ship));
-}
-
-
 int char_to_pos(char msg[static 3], pos *p) {
         int y = msg[0] - 0x41;  // letter part A-J
         int x = msg[1] - 0x30;      // number part 0-9
@@ -70,8 +54,7 @@ int main(void) {
         wrefresh(text_box);
 
         // initialize and render ships
-        ship ships[NUM_SHIPS];
-        init_ships(ships);
+        ship ships[NUM_SHIPS] = DEFAULT_SHIPS;
         render_ships(ships, player_board);
 
         wgetch(text_box);

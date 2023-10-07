@@ -32,6 +32,7 @@ void init_ncurses(void) {
 }
 
 
+// TODO: depricate (and potentially remove) after implementing methods to "place" ships on board, since ship characters will be rendered with map, actions on map will update ships, etc. The map representing game state and the game state will be inextricably linked, programmer voodoo magic.
 int render_ships(WINDOW *win, ship *ships) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {

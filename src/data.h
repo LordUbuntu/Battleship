@@ -6,11 +6,6 @@
 #pragma once
 
 
-// NOTE: the visual representation of the board is updated one
-//      char at a time, but its visualization need not be
-//      represented by a board state (at least not at the moment).
-
-
 // (x, y) position
 typedef struct {
         unsigned x : 4;
@@ -38,8 +33,6 @@ typedef struct {
 
 
 // 10x10 player and opponent board
-#define WATER 0
-#define SHIP 1
 typedef char map[10][10];
 
 

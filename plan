@@ -8,8 +8,9 @@ PLAN:
 - start ncurses
 - while the game loop is running
   - update graphics   (render)
-  - handle user input (input)
-  - update game state (update)
+  - handle user move  (input)
+  - get opponent move (input, network)
+  - update game state (update, network)
 - end ncurses
 
 
@@ -20,6 +21,7 @@ DESIGN:
   - data-oriented design, structs capture game state and types, references to data types are passed around and modified by functions they're passed to
   GRAPHICS:
   - graphics functions should have windows passed in, along with whatever data refs needed.
+  - instead of numbers representing map state and then chars representing that (indirect), chars are instead directly embedded into the map to both repesent its state and its view at once
   GENERAL:
   - initial data structures like intial board position and the like will be initialized at compile time as global variables and macros
 

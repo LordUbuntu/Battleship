@@ -3,7 +3,10 @@
 #pragma once
 
 
+#define WATER_CHAR '~'
 #define SHIP_CHAR '#'
+#define HIT_CHAR '*'
+#define MISS_CHAR '@'
 
 
 void init_ncurses(void) {

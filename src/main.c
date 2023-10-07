@@ -6,7 +6,7 @@
 
 int char_to_pos(char msg[static 3], pos *p) {
         int y = msg[0] - 0x41;  // letter part A-J
-        int x = msg[1] - 0x30;      // number part 0-9
+        int x = msg[1] - 0x30;  // number part 0-9
         // return error if conversion data invalid
         if (y < 0 || y > 9)
                 return 1;
@@ -20,20 +20,24 @@ int char_to_pos(char msg[static 3], pos *p) {
 
 
 int main(void) {
-        // init curses graphics
+        // init player data
+        ship player_ships[5] = DEFAULT_SHIPS;
+        map player_map = { { WATER_CHAR } };
+
+
+        // render graphics
         init_ncurses();
-
-
         // render empty player board
         //                             w,  h, y, x
         WINDOW *player_board = newwin(12, 12, 4, 2);
         wborder(player_board, '|', '|', '-', '-', '+', '+', '+', '+');
         wrefresh(player_board);
-
         // render empty input box
         WINDOW *text_box = newwin(3, COLS, LINES - 3, 0);
         wborder(text_box, '|', '|', '-', '-', '+', '+', '+', '+');
         wrefresh(text_box);
+        // render ships
+        render_ships(player_board, player_ships);
 
         // get input box input
         char msg[3];
@@ -52,12 +56,6 @@ int main(void) {
                 wprintw(text_box, "Coordinate is: %iy %ix", p.y, p.x);
         }
         wrefresh(text_box);
-
-        // initialize and render ships
-        ship player_ships[NUM_SHIPS] = DEFAULT_SHIPS;
-        render_ships(player_board, player_ships);
-
-        wgetch(text_box);
 
 
         // render main screen

@@ -3,10 +3,22 @@
 #pragma once
 
 
-#define WATER_CHAR '~'
-#define SHIP_CHAR '#'
-#define HIT_CHAR '*'
-#define MISS_CHAR '@'
+#define WATER '~'
+#define SHIP '#'
+#define HIT '*'
+#define MISS '@'
+#define DEFAULT_MAP { \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+        {WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER, WATER}, \
+}
 
 
 void init_ncurses(void) {
@@ -30,11 +42,22 @@ int render_ships(WINDOW *win, ship *ships) {
                 if (s.back.x - s.front.x == 0) {
                         // draw vertical line
                         wvline(win, SHIP_CHAR, s.back.y - s.front.y);
-                } else {
+                } else if (s.back.y - s.front.y == 0) {
                         // draw horizontal line
                         whline(win, SHIP_CHAR, s.back.x - s.front.x);
+                } else {
+                        return 1;
                 }
         }
+        wrefresh(win);
+        return 0;
+}
+
+
+int render_map(WINDOW *win, map m) {
+        for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                        mvwaddch(win, i + 1, j + 1, m[i][j]);
         wrefresh(win);
         return 0;
 }

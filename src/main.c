@@ -23,6 +23,7 @@ int main(void) {
         // init player data
         ship player_ships[5] = DEFAULT_SHIPS;
         map player_map = DEFAULT_MAP;
+        // NOTE: embed ship location into map when ships are initially placed in game
 
 
         // render graphics
@@ -36,8 +37,6 @@ int main(void) {
         WINDOW *text_box = newwin(3, COLS, LINES - 3, 0);
         wborder(text_box, '|', '|', '-', '-', '+', '+', '+', '+');
         wrefresh(text_box);
-        // render ships
-        render_ships(player_board, player_ships);
 
         // get input box input
         char msg[3];
@@ -61,7 +60,10 @@ int main(void) {
 
         // render map data
         render_map(player_board, player_map);
-        wgetch(text_box);
+        wgetch(player_board);
+        // render ships
+        render_ships(player_board, player_ships);
+        wgetch(player_board);
 
 
         // render main screen

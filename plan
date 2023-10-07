@@ -22,6 +22,11 @@ DESIGN:
   GRAPHICS:
   - graphics functions should have windows passed in, along with whatever data refs needed.
   - instead of numbers representing map state and then chars representing that (indirect), chars are instead directly embedded into the map to both repesent its state and its view at once
+  DATA:
+  - following a DOD approach, a single struct of structs will capture the gamestate in static memory
+  - structs will be packed to reduce memory footprint. The goal is to fit this in 14kb or less
+  - the map represents player board state, and known enemy board state.
+  - the map is inextricably tied to the pins and ships structs, representing shot tiles and ship data respectively.
   GENERAL:
   - initial data structures like intial board position and the like will be initialized at compile time as global variables and macros
 

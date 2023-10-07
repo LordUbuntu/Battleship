@@ -22,7 +22,7 @@ int char_to_pos(char msg[static 3], pos *p) {
 int main(void) {
         // init player data
         ship player_ships[5] = DEFAULT_SHIPS;
-        map player_map = { { WATER_CHAR } };
+        map player_map = DEFAULT_MAP;
 
 
         // render graphics
@@ -56,6 +56,12 @@ int main(void) {
                 wprintw(text_box, "Coordinate is: %iy %ix", p.y, p.x);
         }
         wrefresh(text_box);
+
+        wgetch(text_box);
+
+        // render map data
+        render_map(player_board, player_map);
+        wgetch(text_box);
 
 
         // render main screen

@@ -41,10 +41,10 @@ int render_ships(WINDOW *win, ship *ships) {
                 // determine orientation
                 if (s.back.x - s.front.x == 0) {
                         // draw vertical line
-                        wvline(win, SHIP_CHAR, s.back.y - s.front.y);
+                        wvline(win, SHIP, s.back.y - s.front.y);
                 } else if (s.back.y - s.front.y == 0) {
                         // draw horizontal line
-                        whline(win, SHIP_CHAR, s.back.x - s.front.x);
+                        whline(win, SHIP, s.back.x - s.front.x);
                 } else {
                         return 1;
                 }

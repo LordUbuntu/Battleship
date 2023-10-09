@@ -19,11 +19,29 @@ int char_to_pos(char msg[static 3], pos *p) {
 }
 
 
+// TODO: place piece in x,y location on ship data first, then place as tiles on map
+int place_ship(map m, ship s, int x, int y) {
+        if (s.back.x - s.front.x == 0) {
+                // fill vertical
+                for (int y = s.front.y; y < s.back.y + 1; y++)
+                        m[y][s.front.x] = SHIP;
+        } else if (s.back.y - s.front.y == 0) {
+                // fill horizontal
+                for (int x = s.front.x; x < s.back.x + 1; x++)
+                        m[s.front.y][x] = SHIP;
+        } else {
+                return 1;
+        }
+        return 0;
+}
+
+
 int main(void) {
         // init player data
         ship player_ships[5] = DEFAULT_SHIPS;
         map player_map = DEFAULT_MAP;
         // NOTE: embed ship location into map when ships are initially placed in game
+        place_ship(player_map, player_ships[0], 1, 2);
 
 
         // render graphics

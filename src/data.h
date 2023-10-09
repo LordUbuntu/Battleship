@@ -38,8 +38,3 @@ typedef char map[10][10];
 
 // list of tiles that have been tried ("pinned")
 typedef pos pins[100];
-
-
-int place_ship(map m, ship s) {
-
-}

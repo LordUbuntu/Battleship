@@ -55,6 +55,7 @@ int render_ships(WINDOW *win, ship *ships) {
 }
 
 
+// NOTE: is there a better way to batch-render a 2d array of char in a window?
 int render_map(WINDOW *win, map m) {
         for (int i = 0; i < 10; i++)
                 for (int j = 0; j < 10; j++)

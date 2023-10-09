@@ -21,9 +21,14 @@ int char_to_pos(char msg[static 3], pos *p) {
 
 
 // TODO: place piece in x,y location on ship data first, then place as tiles on map
+// NOTE: ships are represented through map
 int place_ship(map m, ship s, int x, int y, bool vertical) {
         // preconditions:
         // - the ship is at full health (initialized, but game has not started yet)
+        
+        // PERFORM CHECKS
+        // UPDATE SHIP INFO
+        // PLACE SHIP ON MAP
         if (s.back.x - s.front.x == 0) {
                 // fill vertical
                 for (int y = s.front.y; y < s.back.y + 1; y++)
@@ -43,7 +48,6 @@ int main(void) {
         // init player data
         ship player_ships[5] = DEFAULT_SHIPS;
         map player_map = DEFAULT_MAP;
-        place_ship(player_map, player_ships[0], 0, 1, true);
 
 
         // render graphics

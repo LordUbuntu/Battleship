@@ -47,16 +47,8 @@ int place_ship(map m, ship s, int x, int y, bool vertical) {
 */
 
 
-int main(void) {
-        // INITIALIZE GAMESTATE
-        // ship player_ships[5] = DEFAULT_SHIPS;
-        // map player_map = DEFAULT_MAP;
+int menu(void) {
         int input = 0;
-
-        // INIT GRAPHICS
-        init_ncurses();
-
-        // START GAME ON MAIN MENU
         WINDOW *menu = newwin(LINES, COLS, 0, 0);
         keypad(menu, true);
         char option[4][16] = {
@@ -65,9 +57,10 @@ int main(void) {
                 "Help\0",
                 "Quit\0",
         };
-        int highlight = 0;  // highlight menu item
+        int highlight = 0;  // highlighted menu item
         // menu loop
-        while (true) {
+        bool loop = true;
+        while (loop) {
                 mvwprintw(menu, 3, 5, "MENU");
                 for (int i = 0; i < 4; i++) {
                         if (i == highlight)
@@ -77,9 +70,50 @@ int main(void) {
                 }
                 mvwprintw(menu, 10, 10, "%i", input);
                 wrefresh(menu);
+                input = wgetch(menu);
+                switch (input) {
+                        case KEY_DOWN:
+                                highlight = (highlight + 1) % 4;
+                                break;
+                        case KEY_UP:
+                                highlight = (highlight - 1) % 4;
+                                highlight = highlight < 0 ? 3 : highlight;
+                                break;
+                        case '\n':
+                                loop = false;
+                                break;
+                        default:
+                                break;
+                }
         }
         delwin(menu);
         erase();
+        return highlight;
+}
+
+
+int main(void) {
+        // INITIALIZE GAMESTATE
+        // ship player_ships[5] = DEFAULT_SHIPS;
+        // map player_map = DEFAULT_MAP;
+        // INIT GRAPHICS
+        init_ncurses();
+
+        // START GAME ON MAIN MENU
+        int selection = menu();
+        if (selection == 0) {
+                printw("Single Player");
+        } else if (selection == 1) {
+                printw("Multi Player");
+        } else if (selection == 2) {
+                printw("Help");
+        } else if (selection == 3) {
+                printw("Quit");
+        } else {
+                printw("CRAP!!!");
+        }
+        refresh();
+        getch();
 
         stop_ncurses();
 

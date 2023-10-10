@@ -4,7 +4,7 @@
 #include "graphics.c"
 #include "data.h"
 
-
+/*
 int char_to_pos(char msg[static 3], pos *p) {
         int y = msg[0] - 0x41;  // letter part A-J
         int x = msg[1] - 0x30;  // number part 0-9
@@ -18,10 +18,12 @@ int char_to_pos(char msg[static 3], pos *p) {
         p->y = y;
         return 0;
 }
+*/
 
 
 // TODO: place piece in x,y location on ship data first, then place as tiles on map
 // NOTE: ships are represented through map
+/*
 int place_ship(map m, ship s, int x, int y, bool vertical) {
         // preconditions:
         // - the ship is at full health (initialized, but game has not started yet)
@@ -42,18 +44,44 @@ int place_ship(map m, ship s, int x, int y, bool vertical) {
         }
         return 0;
 }
+*/
 
 
 int main(void) {
         // INITIALIZE GAMESTATE
-        ship player_ships[5] = DEFAULT_SHIPS;
-        map player_map = DEFAULT_MAP;
+        // ship player_ships[5] = DEFAULT_SHIPS;
+        // map player_map = DEFAULT_MAP;
+        int input = 0;
 
         // INIT GRAPHICS
         init_ncurses();
 
         // START GAME ON MAIN MENU
         WINDOW *menu = newwin(LINES, COLS, 0, 0);
+        keypad(menu, true);
+        char option[4][16] = {
+                "Single Player\0",
+                "Multi Player\0",
+                "Help\0",
+                "Quit\0",
+        };
+        int highlight = 0;  // highlight menu item
+        // menu loop
+        while (true) {
+                mvwprintw(menu, 3, 5, "MENU");
+                for (int i = 0; i < 4; i++) {
+                        if (i == highlight)
+                                wattron(menu, A_REVERSE);
+                        mvwprintw(menu, 3+(2*(i+1)), 3, "%s", option[i]);
+                        wattroff(menu, A_REVERSE);
+                }
+                mvwprintw(menu, 10, 10, "%i", input);
+                wrefresh(menu);
+        }
+        delwin(menu);
+        erase();
+
+        stop_ncurses();
 
 
 /*
@@ -109,5 +137,4 @@ int main(void) {
         //   if player selects quit, end program
         // stop curses graphics
 */
-        stop_ncurses();
 }

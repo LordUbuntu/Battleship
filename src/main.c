@@ -99,7 +99,7 @@ int main(void) {
         // INIT GRAPHICS
         init_ncurses();
 
-        // START GAME ON MAIN MENU
+        // START GAME
         int selection = menu();
         if (selection == 0) {
                 printw("Single Player");

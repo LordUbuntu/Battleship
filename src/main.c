@@ -45,13 +45,18 @@ int place_ship(map m, ship s, int x, int y, bool vertical) {
 
 
 int main(void) {
-        // init player data
+        // INITIALIZE GAMESTATE
         ship player_ships[5] = DEFAULT_SHIPS;
         map player_map = DEFAULT_MAP;
 
-
-        // render graphics
+        // INIT GRAPHICS
         init_ncurses();
+
+        // START GAME ON MAIN MENU
+        WINDOW *menu = newwin(LINES, COLS, 0, 0);
+
+
+/*
         // render empty player board
         //                             w,  h, y, x
         WINDOW *player_board = newwin(12, 12, 4, 2);
@@ -103,5 +108,6 @@ int main(void) {
         //   if player selects help, render help screen
         //   if player selects quit, end program
         // stop curses graphics
+*/
         stop_ncurses();
 }

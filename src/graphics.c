@@ -3,6 +3,10 @@
 #pragma once
 
 
+// define scenes
+typedef WINDOW scene[5];
+
+
 void init_ncurses(void) {
         initscr();
         curs_set(FALSE);

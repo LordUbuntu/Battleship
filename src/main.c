@@ -52,10 +52,10 @@ int menu(void) {
         WINDOW *menu = newwin(LINES, COLS, 0, 0);
         keypad(menu, true);
         char option[4][16] = {
-                "Single Player\0",
-                "Multi Player\0",
-                "Help\0",
-                "Quit\0",
+                "Single Player",
+                "Multi Player",
+                "Help",
+                "Quit",
         };
         int highlight = 0;  // highlighted menu item
         // menu loop
@@ -145,13 +145,15 @@ int main(void) {
                 } else if (selection == 2) {
                         help();
                 } else if (selection == 3) {
-                        printw("Quit");
+                        printw("Thanks For Playing!");
                         refresh();
                         getch();
+                        break;
                 } else {
                         printw("CRAP!!!");
                         refresh();
                         getch();
+                        break;
                 }
         }
 

@@ -4,48 +4,6 @@
 #include "graphics.c"
 #include "data.h"
 
-/*
-int char_to_pos(char msg[static 3], pos *p) {
-        int y = msg[0] - 0x41;  // letter part A-J
-        int x = msg[1] - 0x30;  // number part 0-9
-        // return error if conversion data invalid
-        if (y < 0 || y > 9)
-                return 1;
-        if (x < 0 || x > 9)
-                return 1;
-        // set coordinates
-        p->x = x;
-        p->y = y;
-        return 0;
-}
-*/
-
-
-// TODO: place piece in x,y location on ship data first, then place as tiles on map
-// NOTE: ships are represented through map
-/*
-int place_ship(map m, ship s, int x, int y, bool vertical) {
-        // preconditions:
-        // - the ship is at full health (initialized, but game has not started yet)
-        
-        // PERFORM CHECKS
-        // UPDATE SHIP INFO
-        // PLACE SHIP ON MAP
-        if (s.back.x - s.front.x == 0) {
-                // fill vertical
-                for (int y = s.front.y; y < s.back.y + 1; y++)
-                        m[y][s.front.x] = SHIP;
-        } else if (s.back.y - s.front.y == 0) {
-                // fill horizontal
-                for (int x = s.front.x; x < s.back.x + 1; x++)
-                        m[s.front.y][x] = SHIP;
-        } else {
-                return 1;
-        }
-        return 0;
-}
-*/
-
 
 int menu(void) {
         clear();

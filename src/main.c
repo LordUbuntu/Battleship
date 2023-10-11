@@ -7,6 +7,7 @@
 
 int menu(void) {
         clear();
+        refresh();
         int input = 0;
         WINDOW *menu = newwin(LINES, COLS, 0, 0);
         keypad(menu, true);
@@ -47,6 +48,7 @@ int menu(void) {
         }
         delwin(menu);
         erase();
+        refresh();
         return highlight;
 }
 
@@ -55,6 +57,7 @@ int menu(void) {
 void help(void) {
         // this is fine because the help page data is static
         clear();
+        refresh();
         WINDOW *help = newwin(LINES, COLS, 0, 0);
         int input = 0;
         while (true) {
@@ -82,6 +85,7 @@ void help(void) {
         }
         delwin(help);
         erase();
+        refresh();
 }
 
 
@@ -96,16 +100,18 @@ int main(void) {
         while (true) {
                 int selection = menu();
                 if (selection == 0) {
-                        printw("Single Player");
                         refresh();
+                        printw("Single Player");
                         getch();
                 } else if (selection == 1) {
+                        refresh();
                         printw("Multi Player");
                         refresh();
                         getch();
                 } else if (selection == 2) {
                         help();
                 } else if (selection == 3) {
+                        refresh();
                         printw("Thanks For Playing!");
                         refresh();
                         getch();

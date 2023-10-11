@@ -33,12 +33,17 @@ DESIGN:
 
 
 TODO:
-- implement scene structs
-- design and implement functioning scenes
-- implement scene switching (just a loop to start)
-  - contruct and destruct windows and other stuff as needed when swithing scenes
+- implement scenes
+  - implement help scene
+  - implement menu->help->menu scene switching
+  - implement game scene
+  - implement menu->game->menu scene switching
+- implement game loop
+  - ???
+  - profit
 - implement gamestate data struct
   - player ships with default ship data
   - player and enemy maps
   - player and enemy pins
   - turn number
+  - who won/lost

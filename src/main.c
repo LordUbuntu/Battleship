@@ -101,7 +101,16 @@ int main(void) {
                 int selection = menu();
                 if (selection == 0) {
                         refresh();
-                        printw("Single Player");
+                        int input = 0;
+                        WINDOW *player_board = newwin(12, 12, 1, 1);
+                        WINDOW *enemy_board = newwin(12, 12, 1, 14);
+                        WINDOW *last_move = newwin(3, 25, 13, 1);
+                        box(player_board, 0, 0);
+                        box(enemy_board, 0, 0);
+                        box(last_move, 0, 0);
+                        wrefresh(player_board);
+                        wrefresh(enemy_board);
+                        wrefresh(last_move);
                         getch();
                 } else if (selection == 1) {
                         refresh();

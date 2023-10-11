@@ -131,22 +131,29 @@ int main(void) {
         // INIT GRAPHICS
         init_ncurses();
 
-        help();
         // START GAME
-        int selection = menu();
-        if (selection == 0) {
-                printw("Single Player");
-        } else if (selection == 1) {
-                printw("Multi Player");
-        } else if (selection == 2) {
-                printw("Help");
-        } else if (selection == 3) {
-                printw("Quit");
-        } else {
-                printw("CRAP!!!");
+        while (true) {
+                int selection = menu();
+                if (selection == 0) {
+                        printw("Single Player");
+                        refresh();
+                        getch();
+                } else if (selection == 1) {
+                        printw("Multi Player");
+                        refresh();
+                        getch();
+                } else if (selection == 2) {
+                        help();
+                } else if (selection == 3) {
+                        printw("Quit");
+                        refresh();
+                        getch();
+                } else {
+                        printw("CRAP!!!");
+                        refresh();
+                        getch();
+                }
         }
-        refresh();
-        getch();
 
         stop_ncurses();
 

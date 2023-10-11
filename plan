@@ -33,9 +33,6 @@ DESIGN:
 
 
 TODO:
-- implement scenes
-  - implement game scene
-  - implement menu->game->menu scene switching
 - implement game loop
   - ???
   - profit

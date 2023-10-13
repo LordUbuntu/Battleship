@@ -4,6 +4,7 @@
  * This is just a draft of expected ADTs for now...
  */
 #pragma once
+#include <stdbool.h>
 
 
 // (x, y) position
@@ -54,3 +55,26 @@ typedef char map[10][10];
 
 // list of tiles that have been tried ("pinned")
 typedef pos pins[100];
+
+
+
+// the notorious gamestate record
+/*
+  - player ships with default ship data
+  - player and enemy maps
+  - player and enemy pins
+  - turn number
+  - player_turn (true if this persons turn)
+  - score
+  - winner (starts null, becomes 1 for winner and -1 for loser)
+ */
+typedef struct {
+        ship ships[5];
+        map board;  // player map
+        pins player_pins;
+        pins opponent_pins;
+        unsigned long turn_number;
+        bool player_turn;  // when networking, ensure both aren't true at the same time, prefer host
+        unsigned score;
+        int winner;  // -1 for lose, 0 to start, 1 for winner
+} gamestate;

@@ -7,11 +7,20 @@
 
 int menu(void);
 void help(void);
-void attack(WINDOW *win, pos *p);
 
 
 int main(void) {
         // INITIALIZE GAMESTATE
+        gamestate state = {
+                .ships = DEFAULT_SHIPS,
+                .board = DEFAULT_MAP,
+                .player_pins = {},
+                .opponent_pins = {},
+                .turn_number = 0,
+                .player_turn = true,
+                .score = 0,
+                .winner = 0
+        };
         // ship player_ships[5] = DEFAULT_SHIPS;
         // map player_map = DEFAULT_MAP;
         // INIT GRAPHICS
@@ -32,9 +41,6 @@ int main(void) {
                         wrefresh(player_board);
                         wrefresh(enemy_board);
                         wrefresh(last_move);
-                        getch();
-                        pos p = { 0, 0 };
-                        attack(enemy_board, &p);
                         getch();
                 } else if (selection == 1) {
                         refresh();
@@ -197,46 +203,4 @@ void help(void) {
         delwin(help);
         erase();
         refresh();
-}
-
-
-void attack(WINDOW *win, pos *p) {
-        wrefresh(win);
-        keypad(win, true);
-        int input = 0, y = 0, x = 0;
-        bool getting_input = true;
-        // until an ENTER is given
-        while (getting_input) {
-                // get character
-                int char = mvinch(y, x);
-                // highlight character
-                wattron(win, A_REVERSE);
-                mvwaddch(win, y, x, char);
-                wattroff(win, A_REVERSE);
-                // respond to user input
-                input = wgetch(win);
-                switch (input) {
-                        case KEY_DOWN:
-                                y++;
-                                break;
-                        case KEY_UP:
-                                y--;
-                                break;
-                        case KEY_RIGHT:
-                                x++;
-                                break;
-                        case KEY_LEFT:
-                                x--;
-                                break;
-                        case '\n':
-                                mvwaddch(win, y, x, char);  // clear attr
-                                p->x = x;
-                                p->y = y;
-                                getting_input = false;
-                                break;
-                        case default:
-                                break;
-                }
-                wrefresh(win);
-        }
 }

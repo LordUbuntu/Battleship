@@ -5,6 +5,11 @@
 #include "data.h"
 
 
+#define OK 0
+#define ERR 1
+#define WARN 2
+
+
 int menu(void);
 void help(void);
 
@@ -30,6 +35,7 @@ int main(void) {
         while (true) {
                 int selection = menu();
                 if (selection == 0) {
+                        state.player_turn = true;
                         refresh();
                         // int input = 0;
                         WINDOW *player_board = newwin(12, 12, 1, 1);

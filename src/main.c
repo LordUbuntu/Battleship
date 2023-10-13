@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdbool.h>
-#include "network.c"
+// #include "network.c"  // currently unusable until stable
 #include "graphics.c"
 #include "data.h"
 

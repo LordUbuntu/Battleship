@@ -33,6 +33,8 @@ typedef struct {
 }
 
 
+// 10x10 player and opponent board
+typedef char map[10][10];
 #define WATER '~'
 #define SHIP '#'
 #define HIT '*'
@@ -49,8 +51,6 @@ typedef struct {
         {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER},\
         {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER},\
 }
-// 10x10 player and opponent board
-typedef char map[10][10];
 
 
 // list of tiles that have been tried ("pinned")

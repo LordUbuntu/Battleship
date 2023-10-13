@@ -33,20 +33,25 @@ DESIGN:
 
 
 TODO:
-- implement game loop
-  - render for single/multiplayer
-  - place pieces
-    - arrow key with ship ghost render
-    - check for valid placement of piece, or try again
-  - begin battle
-    - move with arrow keys to select, enter to attack
-    - retry if tile was already tried
-    - response if tile has ship or untried
-    - ...
-  - profit
 - implement gamestate data struct
   - player ships with default ship data
   - player and enemy maps
   - player and enemy pins
   - turn number
-  - who won/lost
+  - player_turn (true if this persons turn)
+  - score
+  - winner (starts null, becomes 1 for winner and -1 for loser)
+- implement networking (singleplayer is just loop)
+- write a function to quickly calculate if a coordinate overlaps with a ship and which ship it overlaps with (pointer magic?)
+- implement input function for board maps (returns position)
+- implement game loop
+  - place ships
+    - handle input (input function)
+    - verify ships are not overlapping or out of bounds
+    - store ship positions in ship structs
+  - mark ships on player map
+  - attack loop
+    - handle input (input function)
+    - verify tile on enemy side is a ship or not
+    - update info on enemy local map and player local map
+    - switch turns (how to record this?)

@@ -17,7 +17,7 @@ PLAN:
 DESIGN:
   FUNCTIONS:
   - pass pointers to structs and other data entities
-  - functions of form 'int f(T in, T *out)'
+  - functions of form 'int f(A in, B *out)'
   - data-oriented design, structs capture game state and types, references to data types are passed around and modified by functions they're passed to
   GRAPHICS:
   - graphics functions should have windows passed in, along with whatever data refs needed.

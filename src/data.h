@@ -1,7 +1,6 @@
 /* Jacobus Burger (2023)
  * Abstract data types used throughout the program to represent program
  *   state. 
- * This is just a draft of expected ADTs for now...
  */
 #pragma once
 #include <stdbool.h>

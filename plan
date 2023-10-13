@@ -34,7 +34,15 @@ DESIGN:
 
 TODO:
 - implement game loop
-  - ???
+  - render for single/multiplayer
+  - place pieces
+    - arrow key with ship ghost render
+    - check for valid placement of piece, or try again
+  - begin battle
+    - move with arrow keys to select, enter to attack
+    - retry if tile was already tried
+    - response if tile has ship or untried
+    - ...
   - profit
 - implement gamestate data struct
   - player ships with default ship data

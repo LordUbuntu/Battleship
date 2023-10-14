@@ -33,14 +33,6 @@ DESIGN:
 
 
 TODO:
-- implement gamestate data struct
-  - player ships with default ship data
-  - player and enemy maps
-  - player and enemy pins
-  - turn number
-  - player_turn (true if this persons turn)
-  - score
-  - winner (starts null, becomes 1 for winner and -1 for loser)
 - implement networking
   - client
   - server

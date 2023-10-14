@@ -72,8 +72,8 @@ typedef struct {
         map board;  // player map
         pins player_pins;
         pins opponent_pins;
-        unsigned long turn_number;
         bool player_turn;  // when networking, ensure both aren't true at the same time, prefer host
+        unsigned long turn_number;
         unsigned score;
         int winner;  // -1 for lose, 0 to start, 1 for winner
 } gamestate;

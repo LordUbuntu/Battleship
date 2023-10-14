@@ -41,7 +41,13 @@ TODO:
   - player_turn (true if this persons turn)
   - score
   - winner (starts null, becomes 1 for winner and -1 for loser)
-- implement networking (singleplayer is just loop)
+- implement networking
+  - client
+  - server
+  - peer-to-peer connection (basic netcat-like)
+  - automatic search for nearby partners (lan searching)
+  - singleplayer functionality (connect to second local instance, basically echo with randomness)
+  - multiplaye functionality (turn-based send-recv loop, negotiate initial connection with MAIN and PEER)
 - write a function to quickly calculate if a coordinate overlaps with a ship and which ship it overlaps with (pointer magic?)
 - implement input function for board maps (returns position)
 - implement game loop

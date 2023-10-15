@@ -46,7 +46,7 @@ int main(void) {
                         getch();
                         pos p;
                         get_pos(enemy_board, &p);
-                        wprintw(last_move, "Struck Pos: %i,%i", p.x,p.y);
+                        mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
                         wrefresh(last_move);
                         getch();
                 } else if (selection == 1) {
@@ -220,7 +220,7 @@ void get_pos(WINDOW *win, pos *p) {
 
         wrefresh(win);
         move(y, x);
-        ch = inch(y, x);
+        ch = inch();
         wattron(win, A_REVERSE);
         mvwaddch(win, y, x, ch);
         wattroff(win, A_REVERSE);

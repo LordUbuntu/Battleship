@@ -129,12 +129,6 @@ int main(void) {
 }
 
 
-void get_pos(WINDOW *win, pos *p) {
-        p->x = 1;
-        p->y = 2;
-}
-
-
 int menu(void) {
         clear();
         refresh();
@@ -216,4 +210,22 @@ void help(void) {
         delwin(help);
         erase();
         refresh();
+}
+
+
+void get_pos(WINDOW *win, pos *p) {
+        int input = 0;
+        char ch = 0;
+        int x = 2, y = 4;
+
+        wrefresh(win);
+        move(y, x);
+        ch = inch();
+        wattron(win, A_REVERSE);
+        mvwaddch(win, y, x, ch);
+        wattroff(win, A_REVERSE);
+        wrefresh(win);
+
+        p->x = x;
+        p->y = y;
 }

@@ -5,11 +5,6 @@
 #include "data.h"
 
 
-#define OK 0
-#define ERR 1
-#define WARN 2
-
-
 int menu(void);
 void help(void);
 void get_pos(WINDOW *win, pos *p);

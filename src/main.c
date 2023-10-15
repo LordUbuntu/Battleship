@@ -12,6 +12,7 @@
 
 int menu(void);
 void help(void);
+void get_pos(WINDOW *win, pos *p);
 
 
 int main(void) {
@@ -21,8 +22,8 @@ int main(void) {
                 .board = DEFAULT_MAP,
                 .player_pins = {},
                 .opponent_pins = {},
-                .turn_number = 0,
                 .player_turn = true,
+                .turn_number = 0,
                 .score = 0,
                 .winner = 0
         };
@@ -46,6 +47,11 @@ int main(void) {
                         box(last_move, 0, 0);
                         wrefresh(player_board);
                         wrefresh(enemy_board);
+                        wrefresh(last_move);
+                        getch();
+                        pos p;
+                        get_pos(enemy_board, &p);
+                        wprintw(last_move, "Struck Pos: %i,%i", p.x,p.y);
                         wrefresh(last_move);
                         getch();
                 } else if (selection == 1) {
@@ -125,6 +131,12 @@ int main(void) {
         //   if player selects quit, end program
         // stop curses graphics
 */
+}
+
+
+void get_pos(WINDOW *win, pos *p) {
+        p->x = 1;
+        p->y = 2;
 }
 
 

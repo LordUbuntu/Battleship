@@ -220,12 +220,12 @@ void get_pos(WINDOW *win, pos *p) {
 
         wrefresh(win);
         move(y, x);
-        ch = inch();
+        ch = inch(y, x);
         wattron(win, A_REVERSE);
         mvwaddch(win, y, x, ch);
         wattroff(win, A_REVERSE);
         wrefresh(win);
 
-        p->x = x;
-        p->y = y;
+        p->x = x - 1;
+        p->y = y - 1;
 }

@@ -216,8 +216,16 @@ void help(void) {
 void get_pos(WINDOW *win, pos *p) {
         int input = 0;
         char ch = 0;
-        int x = 2, y = 4;
+        int x = 1, y = 1;
 
+        // NOTE:
+        // - may add log window to give additional feedback to user
+        // TODO:
+        // - add input loop
+        // - add movement of cursor and it's indication
+        // - limit movement to stay on board
+        // - add skip checks for preoccupied (non-water tiles)
+        // - copy back x and y with offset
         wrefresh(win);
         move(y, x);
         ch = inch();

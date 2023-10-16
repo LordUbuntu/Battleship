@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdbool.h>
-// #include "network.c"  // currently unusable until stable
+// #include "network.c"  // unstable
 #include "graphics.c"
 #include "data.h"
 
@@ -221,11 +221,7 @@ void get_pos(WINDOW *win, pos *p) {
         // - may add log window to give additional feedback to user
         // - maybe this function should be standalone? The movement and boundary management are both common to attack pin placement and ship placement, but the main difference is how ship placement affects the movement (or does it)?
         // TODO:
-        // - add input loop
-        // - add movement of cursor and it's indication
-        // - limit movement to stay on board
         // - add skip checks for preoccupied (non-water tiles)
-        // - copy back x and y with offset
         wrefresh(win);
         move(y, x);
         ch = inch();
@@ -234,7 +230,8 @@ void get_pos(WINDOW *win, pos *p) {
         wattroff(win, A_REVERSE);
         wrefresh(win);
 
-        while (true) {
+        bool confirmed = false;
+        while (!confirmed) {
                 input = getch();
                 wattroff(win, A_REVERSE);
                 mvwaddch(win, y, x, ch);  // clear previous highlight
@@ -252,19 +249,27 @@ void get_pos(WINDOW *win, pos *p) {
                                 x < 10 ? x++ : x;
                                 break;
                         case '\n':
+                                p->x = --x;
+                                p->y = --y;
+                                confirmed = true;
                                 break;
                         default:
                                 break;
                 }
 
-                move(y, x);
-                ch = inch();
-                wattron(win, A_REVERSE);
-                mvwaddch(win, y, x, ch);
-                wattroff(win, A_REVERSE);
+                if (confirmed) {
+                        move(y, x);
+                        ch = inch();
+                        wattroff(win, A_REVERSE);
+                        mvwaddch(win, y, x, ch);
+                } else {
+                        move(y, x);
+                        ch = inch();
+                        wattron(win, A_REVERSE);
+                        mvwaddch(win, y, x, ch);
+                        wattroff(win, A_REVERSE);
+                }
                 wrefresh(win);
         }
 
-        p->x = x - 1;
-        p->y = y - 1;
 }

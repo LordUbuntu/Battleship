@@ -212,7 +212,22 @@ void help(void) {
 }
 
 
-void attack(WINDOW *board, pos *position) {
+void attack(WINDOW *board, WINDOW *log, pos *position) {
+        int input = 0;
+        int x = 1, y = 1;  // [1, 10] -> [0, 9]
+
+        bool valid_input = false;
+        while (!valid_input) {
+                wrefresh(win);
+                move(y, x);
+                ch = inch();
+                wattron(win, A_REVERSE);
+                mvwaddch(win, y, x, ch);
+                wattroff(win, A_REVERSE);
+                wrefresh(win);
+        }
+        position->x = x--;
+        position->y = y--;
 }
 
 void get_pos(WINDOW *win, pos *p) {

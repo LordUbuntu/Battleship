@@ -177,7 +177,6 @@ int menu(void) {
 }
 
 
-// BUG: why is blank on first vision?
 void help(void) {
         // this is fine because the help page data is static
         clear();
@@ -216,7 +215,7 @@ void help(void) {
 void get_pos(WINDOW *win, pos *p) {
         int input = 0;
         char ch = 0;
-        int x = 1, y = 1;
+        int x = 1, y = 1;  // [1, 10] here but return [0, 9]
 
         // NOTE:
         // - may add log window to give additional feedback to user
@@ -227,6 +226,35 @@ void get_pos(WINDOW *win, pos *p) {
         // - add skip checks for preoccupied (non-water tiles)
         // - copy back x and y with offset
         wrefresh(win);
+        move(y, x);
+        ch = inch();
+        wattron(win, A_REVERSE);
+        mvwaddch(win, y, x, ch);
+        wattroff(win, A_REVERSE);
+        wrefresh(win);
+
+        input = getch();
+        wattroff(win, A_REVERSE);
+        mvwaddch(win, y, x, ch);  // clear previous highlight
+        switch (input) {
+                case KEY_UP:
+                        y > 1 ? y-- : y;
+                        break;
+                case KEY_DOWN:
+                        y < 10 ? y++ : y;
+                        break;
+                case KEY_LEFT:
+                        x > 1 ? x-- : x;
+                        break;
+                case KEY_RIGHT:
+                        x < 10 ? x++ : x;
+                        break;
+                case '\n':
+                        break;
+                default:
+                        break;
+        }
+
         move(y, x);
         ch = inch();
         wattron(win, A_REVERSE);

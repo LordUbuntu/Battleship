@@ -212,6 +212,60 @@ void help(void) {
 }
 
 
+void attack(WINDOW *board, WINDOW *log, pos *position) {
+        int input = 0;
+        int x = 1, y = 1;  // [1, 10] -> [0, 9]
+
+        // get input
+        bool valid_input = false;
+        while (!valid_input) {
+                // highlight current board tile
+                move(y, x);
+                char ch = inch();
+                wattron(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                wrefresh(board);
+
+                // get input
+                input = wgetch(board);
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                // verify input
+                                if (ch == WATER)  // maybe if !in_pins
+                                        valid_input = true;
+                                break;
+                        default:
+                                break;
+                }
+
+                // clear highlight
+                wattroff(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+
+                // report invalid input
+                if (!valid_input) {
+                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                        wrefresh(log);
+                }
+        }
+
+        // update position
+        position->x = x--;
+        position->y = y--;
+}
+
 void get_pos(WINDOW *win, pos *p) {
         int input = 0;
         char ch = 0;

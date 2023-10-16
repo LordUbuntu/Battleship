@@ -219,6 +219,7 @@ void get_pos(WINDOW *win, pos *p) {
 
         // NOTE:
         // - may add log window to give additional feedback to user
+        // - maybe this function should be standalone? The movement and boundary management are both common to attack pin placement and ship placement, but the main difference is how ship placement affects the movement (or does it)?
         // TODO:
         // - add input loop
         // - add movement of cursor and it's indication
@@ -233,34 +234,36 @@ void get_pos(WINDOW *win, pos *p) {
         wattroff(win, A_REVERSE);
         wrefresh(win);
 
-        input = getch();
-        wattroff(win, A_REVERSE);
-        mvwaddch(win, y, x, ch);  // clear previous highlight
-        switch (input) {
-                case KEY_UP:
-                        y > 1 ? y-- : y;
-                        break;
-                case KEY_DOWN:
-                        y < 10 ? y++ : y;
-                        break;
-                case KEY_LEFT:
-                        x > 1 ? x-- : x;
-                        break;
-                case KEY_RIGHT:
-                        x < 10 ? x++ : x;
-                        break;
-                case '\n':
-                        break;
-                default:
-                        break;
-        }
+        while (true) {
+                input = getch();
+                wattroff(win, A_REVERSE);
+                mvwaddch(win, y, x, ch);  // clear previous highlight
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                break;
+                        default:
+                                break;
+                }
 
-        move(y, x);
-        ch = inch();
-        wattron(win, A_REVERSE);
-        mvwaddch(win, y, x, ch);
-        wattroff(win, A_REVERSE);
-        wrefresh(win);
+                move(y, x);
+                ch = inch();
+                wattron(win, A_REVERSE);
+                mvwaddch(win, y, x, ch);
+                wattroff(win, A_REVERSE);
+                wrefresh(win);
+        }
 
         p->x = x - 1;
         p->y = y - 1;

@@ -216,16 +216,44 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
+        // get input
         bool valid_input = false;
         while (!valid_input) {
-                wrefresh(win);
+                // highlight current board tile
                 move(y, x);
-                ch = inch();
-                wattron(win, A_REVERSE);
-                mvwaddch(win, y, x, ch);
-                wattroff(win, A_REVERSE);
-                wrefresh(win);
+                char ch = inch();
+                wattron(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                wrefresh(board);
+
+                // get input
+                input = wgetch(board);
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                break;
+                        default:
+                                break;
+                }
+
+
+                // clear highlight
+                wattroff(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
         }
+
+        // update position
         position->x = x--;
         position->y = y--;
 }

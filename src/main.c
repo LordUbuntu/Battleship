@@ -242,15 +242,23 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                 x < 10 ? x++ : x;
                                 break;
                         case '\n':
+                                // verify input
+                                if (ch == WATER)  // maybe if !in_pins
+                                        valid_input = true;
                                 break;
                         default:
                                 break;
                 }
 
-
                 // clear highlight
                 wattroff(board, A_REVERSE);
                 mvwaddch(board, y, x, ch);
+
+                // report invalid input
+                if (!valid_input) {
+                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                        wrefresh(log);
+                }
         }
 
         // update position

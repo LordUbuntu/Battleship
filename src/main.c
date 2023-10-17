@@ -8,6 +8,7 @@
 int menu(void);
 void help(void);
 void get_pos(WINDOW *win, pos *p);
+void attack(WINDOW *board, WINDOW *log, pos *position);
 
 
 int main(void) {
@@ -45,7 +46,8 @@ int main(void) {
                         wrefresh(last_move);
                         getch();
                         pos p;
-                        get_pos(enemy_board, &p);
+                        attack(enemy_board, last_move, &p);
+                        // get_pos(enemy_board, &p);
                         mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
                         wrefresh(last_move);
                         getch();
@@ -71,61 +73,6 @@ int main(void) {
         }
 
         stop_ncurses();
-
-
-/*
-        // render empty player board
-        //                             w,  h, y, x
-        WINDOW *player_board = newwin(12, 12, 4, 2);
-        wborder(player_board, '|', '|', '-', '-', '+', '+', '+', '+');
-        wrefresh(player_board);
-        // render empty input box
-        WINDOW *text_box = newwin(3, COLS, LINES - 3, 0);
-        wborder(text_box, '|', '|', '-', '-', '+', '+', '+', '+');
-        wrefresh(text_box);
-
-        // get input box input
-        char msg[3];
-        wgetstr(text_box, msg);
-        wmove(text_box, 1, 1);
-        wprintw(text_box, "Strike: %.2s", msg);
-        wrefresh(text_box);
-
-        // show actual coordinates
-        wmove(text_box, 1, 1);
-        pos p = { 1, 1 };
-        int status = char_to_pos(msg, &p);
-        if (status) {
-                wprintw(text_box, "conversion failed! %i", status);
-        } else {
-                wprintw(text_box, "Coordinate is: %iy %ix", p.y, p.x);
-        }
-        wrefresh(text_box);
-
-        wgetch(text_box);
-
-        // render map data
-        render_map(player_board, player_map);
-        wgetch(player_board);
-        // render ships
-        render_ships(player_board, player_ships);
-        wgetch(player_board);
-
-
-        // render main screen
-        //   if user selects single player
-        //     render game screen
-        //     start bot
-        //     return to main screen when game is done
-        //   if player selects network player
-        //     render connection screen
-        //     if player successfully connects to another player
-        //       render game screen
-        //       return to main screen when game is done
-        //   if player selects help, render help screen
-        //   if player selects quit, end program
-        // stop curses graphics
-*/
 }
 
 
@@ -212,11 +159,14 @@ void help(void) {
 }
 
 
+// BUG: previous highlights are not reversed
+// BUG: returned coordinates are offset by 1
 void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
         // get input
+        wrefresh(board);
         bool valid_input = false;
         while (!valid_input) {
                 // highlight current board tile
@@ -227,7 +177,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                 wrefresh(board);
 
                 // get input
-                input = wgetch(board);
+                input = getch();
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;
@@ -243,8 +193,14 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                 break;
                         case '\n':
                                 // verify input
-                                if (ch == WATER)  // maybe if !in_pins
+                                // should be ch == WATER, passing for now
+                                if (ch == ' ') {  // maybe if !in_pins
                                         valid_input = true;
+                                } else {
+                                        // report invalid input
+                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                                        wrefresh(log);
+                                }
                                 break;
                         default:
                                 break;
@@ -253,12 +209,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                 // clear highlight
                 wattroff(board, A_REVERSE);
                 mvwaddch(board, y, x, ch);
-
-                // report invalid input
-                if (!valid_input) {
-                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
-                        wrefresh(log);
-                }
+                wrefresh(board);
         }
 
         // update position
@@ -271,11 +222,6 @@ void get_pos(WINDOW *win, pos *p) {
         char ch = 0;
         int x = 1, y = 1;  // [1, 10] here but return [0, 9]
 
-        // NOTE:
-        // - may add log window to give additional feedback to user
-        // - maybe this function should be standalone? The movement and boundary management are both common to attack pin placement and ship placement, but the main difference is how ship placement affects the movement (or does it)?
-        // TODO:
-        // - add skip checks for preoccupied (non-water tiles)
         wrefresh(win);
         move(y, x);
         ch = inch();

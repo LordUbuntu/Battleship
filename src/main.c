@@ -43,7 +43,6 @@ int main(void) {
                         wrefresh(player_board);
                         wrefresh(enemy_board);
                         wrefresh(last_move);
-                        getch();
                         pos p;
                         attack(enemy_board, last_move, &p);
                         mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
@@ -108,6 +107,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                 x < 10 ? x++ : x;
                                 break;
                         case '\n':
+                                // TODO: verify input on only WATER spaces
                                 // verify input
                                 // should be ch == WATER, passing for now
                                 /*

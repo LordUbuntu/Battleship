@@ -9,7 +9,6 @@ int menu(void);
 void help(void);
 
 
-// BUG: returned coordinates are offset by 1
 void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
         char ch = 0;
@@ -47,6 +46,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                         case '\n':
                                 // verify input
                                 // should be ch == WATER, passing for now
+                                /*
                                 if (ch == ' ') {  // maybe if !in_pins
                                         valid_input = true;
                                 } else {
@@ -54,16 +54,17 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                         mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
                                         wrefresh(log);
                                 }
+                                */
+                                // update position
+                                position->x = --x;
+                                position->y = --y;
+                                valid_input = true;
                                 break;
                         default:
                                 break;
                 }
                 wrefresh(board);
         }
-
-        // update position
-        position->x = x--;
-        position->y = y--;
 }
 
 void get_pos(WINDOW *win, pos *p) {

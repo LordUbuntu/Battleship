@@ -12,6 +12,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position);
 
 int main(void) {
         // INITIALIZE GAMESTATE
+        // TODO: improve names, determine actual data needed through dev
         gamestate state = {
                 .ships = DEFAULT_SHIPS,
                 .board = DEFAULT_MAP,

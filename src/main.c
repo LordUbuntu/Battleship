@@ -7,6 +7,71 @@
 
 int menu(void);
 void help(void);
+void attack(WINDOW *board, WINDOW *log, pos *position);
+
+
+int main(void) {
+        // INITIALIZE GAMESTATE
+        gamestate state = {
+                .ships = DEFAULT_SHIPS,
+                .board = DEFAULT_MAP,
+                .player_pins = {},
+                .opponent_pins = {},
+                .player_turn = true,
+                .turn_number = 0,
+                .score = 0,
+                .winner = 0
+        };
+        // ship player_ships[5] = DEFAULT_SHIPS;
+        // map player_map = DEFAULT_MAP;
+        // INIT GRAPHICS
+        init_ncurses();
+
+        // START GAME
+        while (true) {
+                int selection = menu();
+                if (selection == 0) {
+                        state.player_turn = true;
+                        refresh();
+                        // int input = 0;
+                        WINDOW *player_board = newwin(12, 12, 1, 1);
+                        WINDOW *enemy_board = newwin(12, 12, 1, 14);
+                        WINDOW *last_move = newwin(3, 25, 13, 1);
+                        box(player_board, 0, 0);
+                        box(enemy_board, 0, 0);
+                        box(last_move, 0, 0);
+                        wrefresh(player_board);
+                        wrefresh(enemy_board);
+                        wrefresh(last_move);
+                        getch();
+                        pos p;
+                        attack(enemy_board, last_move, &p);
+                        mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
+                        wrefresh(last_move);
+                        getch();
+                } else if (selection == 1) {
+                        refresh();
+                        printw("Multi Player");
+                        refresh();
+                        getch();
+                } else if (selection == 2) {
+                        help();
+                } else if (selection == 3) {
+                        refresh();
+                        printw("Thanks For Playing!");
+                        refresh();
+                        getch();
+                        break;
+                } else {
+                        printw("CRAP!!!");
+                        refresh();
+                        getch();
+                        break;
+                }
+        }
+
+        stop_ncurses();
+}
 
 
 void attack(WINDOW *board, WINDOW *log, pos *position) {
@@ -15,7 +80,6 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
         // get input
-        wrefresh(board);
         bool valid_input = false;
         while (!valid_input) {
                 // highlight current board tile
@@ -65,128 +129,6 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                 }
                 wrefresh(board);
         }
-}
-
-void get_pos(WINDOW *win, pos *p) {
-        int input = 0;
-        char ch = 0;
-        int x = 1, y = 1;  // [1, 10] here but return [0, 9]
-
-        wrefresh(win);
-        move(y, x);
-        ch = inch();
-        wattron(win, A_REVERSE);
-        mvwaddch(win, y, x, ch);
-        wattroff(win, A_REVERSE);
-        wrefresh(win);
-
-        bool confirmed = false;
-        while (!confirmed) {
-                input = getch();
-                wattroff(win, A_REVERSE);
-                mvwaddch(win, y, x, ch);  // clear previous highlight
-                switch (input) {
-                        case KEY_UP:
-                                y > 1 ? y-- : y;
-                                break;
-                        case KEY_DOWN:
-                                y < 10 ? y++ : y;
-                                break;
-                        case KEY_LEFT:
-                                x > 1 ? x-- : x;
-                                break;
-                        case KEY_RIGHT:
-                                x < 10 ? x++ : x;
-                                break;
-                        case '\n':
-                                p->x = --x;
-                                p->y = --y;
-                                confirmed = true;
-                                break;
-                        default:
-                                break;
-                }
-
-                if (confirmed) {
-                        move(y, x);
-                        ch = inch();
-                        wattroff(win, A_REVERSE);
-                        mvwaddch(win, y, x, ch);
-                } else {
-                        move(y, x);
-                        ch = inch();
-                        wattron(win, A_REVERSE);
-                        mvwaddch(win, y, x, ch);
-                        wattroff(win, A_REVERSE);
-                }
-                wrefresh(win);
-        }
-
-}
-
-
-int main(void) {
-        // INITIALIZE GAMESTATE
-        gamestate state = {
-                .ships = DEFAULT_SHIPS,
-                .board = DEFAULT_MAP,
-                .player_pins = {},
-                .opponent_pins = {},
-                .player_turn = true,
-                .turn_number = 0,
-                .score = 0,
-                .winner = 0
-        };
-        // ship player_ships[5] = DEFAULT_SHIPS;
-        // map player_map = DEFAULT_MAP;
-        // INIT GRAPHICS
-        init_ncurses();
-
-        // START GAME
-        while (true) {
-                int selection = menu();
-                if (selection == 0) {
-                        state.player_turn = true;
-                        refresh();
-                        // int input = 0;
-                        WINDOW *player_board = newwin(12, 12, 1, 1);
-                        WINDOW *enemy_board = newwin(12, 12, 1, 14);
-                        WINDOW *last_move = newwin(3, 25, 13, 1);
-                        box(player_board, 0, 0);
-                        box(enemy_board, 0, 0);
-                        box(last_move, 0, 0);
-                        wrefresh(player_board);
-                        wrefresh(enemy_board);
-                        wrefresh(last_move);
-                        getch();
-                        pos p;
-                        attack(enemy_board, last_move, &p);
-                        // get_pos(enemy_board, &p);
-                        mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
-                        wrefresh(last_move);
-                        getch();
-                } else if (selection == 1) {
-                        refresh();
-                        printw("Multi Player");
-                        refresh();
-                        getch();
-                } else if (selection == 2) {
-                        help();
-                } else if (selection == 3) {
-                        refresh();
-                        printw("Thanks For Playing!");
-                        refresh();
-                        getch();
-                        break;
-                } else {
-                        printw("CRAP!!!");
-                        refresh();
-                        getch();
-                        break;
-                }
-        }
-
-        stop_ncurses();
 }
 
 

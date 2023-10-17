@@ -7,8 +7,121 @@
 
 int menu(void);
 void help(void);
-void get_pos(WINDOW *win, pos *p);
-void attack(WINDOW *board, WINDOW *log, pos *position);
+
+
+// BUG: returned coordinates are offset by 1
+void attack(WINDOW *board, WINDOW *log, pos *position) {
+        int input = 0;
+        char ch = 0;
+        int x = 1, y = 1;  // [1, 10] -> [0, 9]
+
+        // get input
+        wrefresh(board);
+        bool valid_input = false;
+        while (!valid_input) {
+                // highlight current board tile
+                move(y, x);
+                ch = inch();
+                wattron(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                wrefresh(board);
+
+                // get input
+                input = getch();
+                // clear highlight
+                wattroff(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                // verify input
+                                // should be ch == WATER, passing for now
+                                if (ch == ' ') {  // maybe if !in_pins
+                                        valid_input = true;
+                                } else {
+                                        // report invalid input
+                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                                        wrefresh(log);
+                                }
+                                break;
+                        default:
+                                break;
+                }
+                wrefresh(board);
+        }
+
+        // update position
+        position->x = x--;
+        position->y = y--;
+}
+
+void get_pos(WINDOW *win, pos *p) {
+        int input = 0;
+        char ch = 0;
+        int x = 1, y = 1;  // [1, 10] here but return [0, 9]
+
+        wrefresh(win);
+        move(y, x);
+        ch = inch();
+        wattron(win, A_REVERSE);
+        mvwaddch(win, y, x, ch);
+        wattroff(win, A_REVERSE);
+        wrefresh(win);
+
+        bool confirmed = false;
+        while (!confirmed) {
+                input = getch();
+                wattroff(win, A_REVERSE);
+                mvwaddch(win, y, x, ch);  // clear previous highlight
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                p->x = --x;
+                                p->y = --y;
+                                confirmed = true;
+                                break;
+                        default:
+                                break;
+                }
+
+                if (confirmed) {
+                        move(y, x);
+                        ch = inch();
+                        wattroff(win, A_REVERSE);
+                        mvwaddch(win, y, x, ch);
+                } else {
+                        move(y, x);
+                        ch = inch();
+                        wattron(win, A_REVERSE);
+                        mvwaddch(win, y, x, ch);
+                        wattroff(win, A_REVERSE);
+                }
+                wrefresh(win);
+        }
+
+}
 
 
 int main(void) {
@@ -156,120 +269,4 @@ void help(void) {
         delwin(help);
         erase();
         refresh();
-}
-
-
-// BUG: previous highlights are not reversed
-// BUG: returned coordinates are offset by 1
-void attack(WINDOW *board, WINDOW *log, pos *position) {
-        int input = 0;
-        int x = 1, y = 1;  // [1, 10] -> [0, 9]
-
-        // get input
-        wrefresh(board);
-        bool valid_input = false;
-        while (!valid_input) {
-                // highlight current board tile
-                move(y, x);
-                char ch = inch();
-                wattron(board, A_REVERSE);
-                mvwaddch(board, y, x, ch);
-                wrefresh(board);
-
-                // get input
-                input = getch();
-                switch (input) {
-                        case KEY_UP:
-                                y > 1 ? y-- : y;
-                                break;
-                        case KEY_DOWN:
-                                y < 10 ? y++ : y;
-                                break;
-                        case KEY_LEFT:
-                                x > 1 ? x-- : x;
-                                break;
-                        case KEY_RIGHT:
-                                x < 10 ? x++ : x;
-                                break;
-                        case '\n':
-                                // verify input
-                                // should be ch == WATER, passing for now
-                                if (ch == ' ') {  // maybe if !in_pins
-                                        valid_input = true;
-                                } else {
-                                        // report invalid input
-                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
-                                        wrefresh(log);
-                                }
-                                break;
-                        default:
-                                break;
-                }
-
-                // clear highlight
-                wattroff(board, A_REVERSE);
-                mvwaddch(board, y, x, ch);
-                wrefresh(board);
-        }
-
-        // update position
-        position->x = x--;
-        position->y = y--;
-}
-
-void get_pos(WINDOW *win, pos *p) {
-        int input = 0;
-        char ch = 0;
-        int x = 1, y = 1;  // [1, 10] here but return [0, 9]
-
-        wrefresh(win);
-        move(y, x);
-        ch = inch();
-        wattron(win, A_REVERSE);
-        mvwaddch(win, y, x, ch);
-        wattroff(win, A_REVERSE);
-        wrefresh(win);
-
-        bool confirmed = false;
-        while (!confirmed) {
-                input = getch();
-                wattroff(win, A_REVERSE);
-                mvwaddch(win, y, x, ch);  // clear previous highlight
-                switch (input) {
-                        case KEY_UP:
-                                y > 1 ? y-- : y;
-                                break;
-                        case KEY_DOWN:
-                                y < 10 ? y++ : y;
-                                break;
-                        case KEY_LEFT:
-                                x > 1 ? x-- : x;
-                                break;
-                        case KEY_RIGHT:
-                                x < 10 ? x++ : x;
-                                break;
-                        case '\n':
-                                p->x = --x;
-                                p->y = --y;
-                                confirmed = true;
-                                break;
-                        default:
-                                break;
-                }
-
-                if (confirmed) {
-                        move(y, x);
-                        ch = inch();
-                        wattroff(win, A_REVERSE);
-                        mvwaddch(win, y, x, ch);
-                } else {
-                        move(y, x);
-                        ch = inch();
-                        wattron(win, A_REVERSE);
-                        mvwaddch(win, y, x, ch);
-                        wattroff(win, A_REVERSE);
-                }
-                wrefresh(win);
-        }
-
 }

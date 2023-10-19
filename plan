@@ -3,16 +3,16 @@ NOTES:
 - Plan, Design, then Develop
 
 PLAN:
-- initialize data in main function (start/init)
-- parse ommand line arguments
-- start ncurses
-- while the game loop is running
-  - update graphics   (render)
-  - handle user move  (input)
-  - get opponent move (input, network)
-  - update game state (update, network)
-- end ncurses
-
+  GAME FLOW:
+  - initialize data in main function (start/init)
+  - parse ommand line arguments
+  - start ncurses
+  - while the game loop is running
+    - update graphics   (render)
+    - handle user move  (input)
+    - get opponent move (input, network)
+    - update game state (update, network)
+  - end ncurses
 
 DESIGN:
   FUNCTIONS:
@@ -33,6 +33,29 @@ DESIGN:
 
 
 TODO:
+- rendering the main game screen should update once to start, then
+  - update log whenever an interaction is occuring
+  - show tooltips below log window when necessary
+  - update radars
+    - once per enemy action for player radar
+      - first water background
+      - then local ships
+      - then enemy pins
+    - every player interaction for enemy radar
+      - always starting with water background
+      - then placing pins to display information
+- place ships and attack tiles
+  - place ship function
+    - one ship at a time
+    - should use render ship (not ships) to display that information
+    - render ship will render underlying water of map first
+  - attack tiles function
+    - highlights current point in window without replacing it
+    - checks if selection is in pins, updates pos and adds to pins if it isn't
+  OVERVIEW:
+    - ship and pin structs will record gameplay elements, map isn't needed since queries on ship and tile location can be resolved effectively by looking through every ship (only 5 of them) and checking if local pins have been tried or not.
+    - rendering the map then will consist of painting layers (water first, then ships, then pins)
+
 - implement networking
   - client
   - server

@@ -12,20 +12,9 @@ void place_ship(WINDOW *board, WINDOW *log, ship *ship);
 
 
 int main(void) {
-        // INITIALIZE GAMESTATE
-        // TODO: improve names, determine actual data needed through dev
-        gamestate state = {
-                .ships = DEFAULT_SHIPS,
-                .board = DEFAULT_MAP,
-                .player_pins = {},
-                .opponent_pins = {},
-                .player_turn = true,
-                .turn_number = 0,
-                .score = 0,
-                .winner = 0
-        };
-        // ship player_ships[5] = DEFAULT_SHIPS;
-        // map player_map = DEFAULT_MAP;
+        // INIT DATA
+
+
         // INIT GRAPHICS
         init_ncurses();
 
@@ -33,24 +22,32 @@ int main(void) {
         while (true) {
                 int selection = menu();
                 if (selection == 0) {
-                        state.player_turn = true;
                         refresh();
-                        // int input = 0;
+                        // setup game scene
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
-                        WINDOW *last_move = newwin(3, 25, 13, 1);
+                        WINDOW *log = newwin(3, 25, 13, 1);
                         box(player_board, 0, 0);
                         box(enemy_board, 0, 0);
-                        box(last_move, 0, 0);
+                        box(log, 0, 0);
+                        wbkgd(player_board, WATER);
+                        wbkgd(enemy_board, WATER);
                         wrefresh(player_board);
                         wrefresh(enemy_board);
-                        wrefresh(last_move);
+                        wrefresh(log);
+                        refresh();
                         pos p;
-                        attack(enemy_board, last_move, &p);
-                        mvwprintw(last_move, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
-                        wrefresh(last_move);
+                        attack(enemy_board, log, &p);
+                        mvwprintw(log, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
+                        wrefresh(log);
                         getch();
+                        delwin(player_board);
+                        delwin(enemy_board);
+                        delwin(log);
                 } else if (selection == 1) {
+                        // how to save repeating single player code here?
+                        // maybe just a change in networking code?
+                        // maybe there's just PLAY as an option (0) for what is now "single player" and then this option is just the menu to setup a connection that then puts you into "single player" with the network connecting to another person instead of an AI
                         refresh();
                         printw("Multi Player");
                         refresh();
@@ -75,55 +72,6 @@ int main(void) {
 }
 
 
-void place_ship(WINDOW *board, WINDOW *log, ship *ship) {
-        int input = 0;
-        int x = 1, y = 1;
-
-        // place ship on unclaimed tiles
-        // TODO: add map update
-        // TODO: add placement check (no overlap)
-        bool vertical = true;
-        bool valid_placement = false;
-        while (!valid_placement) {
-                // render ship
-                // TODO: specialize graphics for this
-
-                // get input
-                input = getch();
-
-                // clear ship
-                wattroff(board, A_REVERSE);
-                mvwaddch(board, y, x, ch);
-
-                // move ship placement with length check
-                switch (input) {
-                        // TODO: a key to flip vertical
-                        case KEY_UP:
-                                y > 1 ? y-- : y;
-                                break;
-                        case KEY_DOWN:
-                                y < 10 ? y++ : y;
-                                break;
-                        case KEY_LEFT:
-                                x > 1 ? x-- : x;
-                                break;
-                        case KEY_RIGHT:
-                                x < 10 ? x++ : x;
-                                break;
-                        case '\n':
-                                // update ship data
-                                position->x = --x;
-                                position->y = --y;
-                                valid_input = true;
-                                break;
-                        default:
-                                break;
-                }
-                wrefresh(board);
-        }
-}
-
-
 void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
         char ch = 0;
@@ -136,14 +84,14 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                 move(y, x);
                 ch = inch();
                 wattron(board, A_REVERSE);
-                mvwaddch(board, y, x, ch);
+                mvwaddch(board, y, x, mvwinch(board, y, x) & A_CHARTEXT);
                 wrefresh(board);
 
                 // get input
                 input = getch();
                 // clear highlight
                 wattroff(board, A_REVERSE);
-                mvwaddch(board, y, x, ch);
+                mvwaddch(board, y, x, mvwinch(board, y, x) & A_CHARTEXT);
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;

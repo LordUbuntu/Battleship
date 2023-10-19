@@ -3,8 +3,10 @@
 #pragma once
 
 
-// define scenes
-typedef WINDOW scene[5];
+#define OK 0
+#define ERR 1
+// TODO: define enum for colours
+// TODO: define and init colours
 
 
 void init_ncurses(void) {
@@ -18,36 +20,33 @@ void init_ncurses(void) {
 }
 
 
-// TODO: depricate (and potentially remove) after implementing methods to "place" ships on board, since ship characters will be rendered with map, actions on map will update ships, etc. The map representing game state and the game state will be inextricably linked, programmer voodoo magic.
+int render_ship(WINDOW *win, ship *s) {
+        // position cursor to draw ship, note +1 offset to stay in border
+        wmove(win, s.front.y + 1, s.front.x + 1);
+
+        // determine orientation
+        if (s.back.x - s.front.x == 0) {
+                // draw vertical line
+                wvline(win, SHIP, s.back.y - s.front.y);
+        } else if (s.back.y - s.front.y == 0) {
+                // draw horizontal line
+                whline(win, SHIP, s.back.x - s.front.x);
+        } else {
+                // bizzare unalignment, shouldn't happen!
+                return ERR;
+        }
+        wrefresh(win);
+        return OK;
+}
+
+
+// WARN: may be depreciated
 int render_ships(WINDOW *win, ship *ships) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
-                // position cursor to draw ship
-                wmove(win, s.front.y + 1, s.front.x + 1);
-                // determine orientation
-                if (s.back.x - s.front.x == 0) {
-                        // draw vertical line
-                        wvline(win, SHIP, s.back.y - s.front.y);
-                } else if (s.back.y - s.front.y == 0) {
-                        // draw horizontal line
-                        whline(win, SHIP, s.back.x - s.front.x);
-                } else {
-                        return 1;
-                }
+                render_ship(win, &s);
         }
-        wrefresh(win);
-        return 0;
-}
-
-
-// NOTE: is there a better way to batch-render a 2d array of char in a window?
-int render_map(WINDOW *win, map m) {
-        for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 10; j++)
-                        mvwaddch(win, i + 1, j + 1, m[i][j]);
-        wrefresh(win);
-        return 0;
 }
 
 

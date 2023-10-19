@@ -8,6 +8,7 @@
 int menu(void);
 void help(void);
 void attack(WINDOW *board, WINDOW *log, pos *position);
+void place_ship(WINDOW *board, WINDOW *log, ship *ship);
 
 
 int main(void) {
@@ -71,6 +72,65 @@ int main(void) {
         }
 
         stop_ncurses();
+}
+
+void place_ship(WINDOW *board, WINDOW *log, ship *ship) {
+        int input = 0;
+        int x = 1, y = 1;
+
+        // place ship on unclaimed tiles
+        // TODO: add map update
+        // TODO: add placement check (no overlap)
+        bool valid_placement = false;
+        while (!valid_placement) {
+                // highlight current board tile
+                move(y, x);
+                ch = inch();
+                wattron(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                wrefresh(board);
+
+                // get input
+                input = getch();
+                // clear highlight
+                wattroff(board, A_REVERSE);
+                mvwaddch(board, y, x, ch);
+                switch (input) {
+                        case KEY_UP:
+                                y > 1 ? y-- : y;
+                                break;
+                        case KEY_DOWN:
+                                y < 10 ? y++ : y;
+                                break;
+                        case KEY_LEFT:
+                                x > 1 ? x-- : x;
+                                break;
+                        case KEY_RIGHT:
+                                x < 10 ? x++ : x;
+                                break;
+                        case '\n':
+                                // TODO: verify input on only WATER spaces
+                                // verify input
+                                // should be ch == WATER, passing for now
+                                /*
+                                if (ch == ' ') {  // maybe if !in_pins
+                                        valid_input = true;
+                                } else {
+                                        // report invalid input
+                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                                        wrefresh(log);
+                                }
+                                */
+                                // update position
+                                position->x = --x;
+                                position->y = --y;
+                                valid_input = true;
+                                break;
+                        default:
+                                break;
+                }
+                wrefresh(board);
+        }
 }
 
 

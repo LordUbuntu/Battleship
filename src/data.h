@@ -36,24 +36,12 @@ typedef struct {
 typedef pos pins[100];
 
 
-
 // the notorious gamestate record
-/*
-  - player ships with default ship data
-  - player and enemy maps
-  - player and enemy pins
-  - turn number
-  - player_turn (true if this persons turn)
-  - score
-  - winner (starts null, becomes 1 for winner and -1 for loser)
- */
 typedef struct {
-        ship ships[5];
-        map board;  // player map
-        pins player_pins;
-        pins opponent_pins;
-        bool player_turn;  // when networking, ensure both aren't true at the same time, prefer host
-        unsigned long turn_number;
-        unsigned score;
-        int winner;  // -1 for lose, 0 to start, 1 for winner
+        ship ships[NUM_SHIPS];  // player's ships
+        // NOTE: both pins arrays should be syncronized on network
+        pins pboard;  // enemy's pins in player's board
+        pins eboard;  // player's pins in enermy's board
+        bool turn;    // player's turn, host always starts with this true
+        unsigned winner : 2;  // 00 to start, 01 for winner, 10 for loser
 } gamestate;

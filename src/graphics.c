@@ -3,8 +3,14 @@
 #pragma once
 
 
+// status codes
 #define OK 0
 #define ERR 1
+// characters and colours
+#define WATER '~'
+#define SHIP '#'
+#define HIT '*'
+#define MISS '@'
 // TODO: define enum for colours
 // TODO: define and init colours
 

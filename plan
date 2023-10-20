@@ -72,3 +72,8 @@ TODO:
     - verify tile on enemy side is a ship or not
     - update info on enemy local map and player local map
     - switch turns (how to record this?)
+
+LATER:
+- redesign structs to maintain funcitonality but optimize space
+- optimize performance where possible
+- rework alot of repeated rendering code into specialized functions, instead of writing out ncurses calls directly

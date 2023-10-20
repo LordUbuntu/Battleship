@@ -136,6 +136,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
 }
 
 
+// TODO: refactor with option and selection enum for better hackability
 int menu(void) {
         clear();
         refresh();
@@ -181,39 +182,4 @@ int menu(void) {
         erase();
         refresh();
         return highlight;
-}
-
-
-void help(void) {
-        // this is fine because the help page data is static
-        clear();
-        refresh();
-        WINDOW *help = newwin(LINES, COLS, 0, 0);
-        int input = 0;
-        while (true) {
-                if (input == 'q')
-                        break;
-                mvwprintw(help, 1, 1, "The goal of battleship is to sink all");
-                mvwprintw(help, 2, 1, "of your opponent's pieces before they");
-                mvwprintw(help, 3, 1, "sink yours.");
-
-                mvwprintw(help, 5, 1, "First, place your pieces on your board");
-                mvwprintw(help, 6, 1, "using the arrow keys, and ENTER to");
-                mvwprintw(help, 7, 1, "confirm your placement. Ensure that");
-                mvwprintw(help, 8, 1, "all pieces are not overlapping and");
-                mvwprintw(help, 9, 1, "are not out of bounds.");
-                mvwprintw(help, 10, 1, "Next, the game starts and you both");
-                mvwprintw(help, 11, 1, "take turns using the arrow keys to");
-                mvwprintw(help, 12, 1, "select an open spot on the opponent");
-                mvwprintw(help, 13, 1, "board, and firing a volley with ENTER.");
-                
-                mvwprintw(help, 15, 1, "To return to the menu, press 'q'");
-
-                wrefresh(help);
-
-                input = getch();
-        }
-        delwin(help);
-        erase();
-        refresh();
 }

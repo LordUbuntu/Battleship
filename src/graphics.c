@@ -79,7 +79,7 @@ int render_ship(WINDOW *win, ship *s) {
 
 
 // WARN: may be depreciated
-int render_ships(WINDOW *win, ship *ships) {
+int render_ships(WINDOW *win, ship ships[static NUM_SHIPS]) {
         // iterate over each ship, drawing its position relative to (0,0)
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];

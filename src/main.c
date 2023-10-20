@@ -13,6 +13,13 @@ void place_ship(WINDOW *board, WINDOW *log, ship *ship);
 
 int main(void) {
         // INIT DATA
+        gamestate state = {
+                .ships = DEFAULT_SHIPS,
+                .pboard = DEFAULT_PINS,
+                .eboard = DEFAULT_PINS,
+                .turn = false,          // initially false for both
+                .winner = UNDECIDED,    // initially UNDECIDED (00) for both
+        };
 
 
         // INIT GRAPHICS

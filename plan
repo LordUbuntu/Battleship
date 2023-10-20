@@ -48,7 +48,6 @@ TODO:
     - should use render ship (not ships) to display that information
     - render ship will render underlying water of map first
   - attack tiles function
-    - highlights current point in window without replacing it
     - checks if selection is in pins, updates pos and adds to pins if it isn't
   OVERVIEW:
     - ship and pin structs will record gameplay elements, map isn't needed since queries on ship and tile location can be resolved effectively by looking through every ship (only 5 of them) and checking if local pins have been tried or not.

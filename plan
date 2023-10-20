@@ -77,3 +77,5 @@ LATER:
 - redesign structs to maintain funcitonality but optimize space
 - optimize performance where possible
 - rework alot of repeated rendering code into specialized functions, instead of writing out ncurses calls directly
+- inline functions where it makes sense to, extract code into functions where it makes sense to.
+- document and improve readability

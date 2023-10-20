@@ -9,6 +9,7 @@ int menu(void);
 void help(void);
 void attack(WINDOW *board, WINDOW *log, pos *position);
 void place_ship(WINDOW *board, WINDOW *log, ship *ship);
+void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]);
 
 
 int main(void) {
@@ -25,9 +26,11 @@ int main(void) {
                         .turn = false,          // initially false for both
                         .winner = UNDECIDED,    // initially UNDECIDED (00) for both
                 };
+                // MENU
                 int selection = menu();
                 if (selection == 0) {
-                        refresh();
+                        // setup local variables
+                        pos p;
                         // setup game scene
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
@@ -41,10 +44,21 @@ int main(void) {
                         wrefresh(enemy_board);
                         wrefresh(log);
                         refresh();
-                        pos p;
-                        attack(enemy_board, log, &p);
-                        mvwprintw(log, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
-                        wrefresh(log);
+                        // player place ships
+                        place_ships(player_board, log, state.ships);
+                        render_ships(player_board, state.ships);
+                        // enemy place ships
+                        // game loop (taking turns attacking)
+                        bool game_running = true;
+                        while (game_running) {
+                                // player attack
+                                attack(enemy_board, log, &p);
+                                mvwprintw(log, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
+                                wrefresh(log);
+                                game_running = false;  // temp
+                                // enemy attack
+                        }
+                        // end single player
                         getch();
                         delwin(player_board);
                         delwin(enemy_board);
@@ -74,6 +88,10 @@ int main(void) {
         }
 
         stop_ncurses();
+}
+
+
+void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
 }
 
 

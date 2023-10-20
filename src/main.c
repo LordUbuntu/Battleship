@@ -8,7 +8,7 @@
 int menu(void);
 void help(void);
 void attack(WINDOW *board, WINDOW *log, pos *position);
-void place_ship(WINDOW *board, WINDOW *log, ship *ship);
+void place_ship(ship *ship, pos p, bool vertical);
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]);
 
 
@@ -92,12 +92,46 @@ int main(void) {
 
 
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
+        // for each ship
+        pos front = {2, 5};
+        place_ship(&ships[4], front, false);
+        for (int i = 0; i < NUM_SHIPS; i++) {
+                // place the ship
+                int input = 0;
+                int x = 1, y = 1;
+                bool valid_placement = false;
+                while (!valid_placement) {
+                        render_ship(board, &ships[i]);
+                        // TODO: move ships with arrow keys
+                        // TODO: rotate ships with v key
+                        // TODO: place ship with enter
+                        // TODO: verify ship is not overlapping another one
+                        // TODO: verify ship is not out of bounds
+                        input = getch();
+                        if (input == '\n')
+                                break;
+                }
+        }
+}
+
+
+void place_ship(ship *s, pos front, bool vertical) {
+        s->front.x = front.x;
+        s->front.y = front.y;
+        if (vertical) {
+                s->back.x = front.x;
+                s->back.y = front.y + s->health;
+        } else {
+                s->back.y = front.y;
+                s->back.x = front.x + s->health;
+        }
 }
 
 
 void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
         char ch = 0;
+        // TODO: replace with `pos cursor`
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
         // get input

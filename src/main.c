@@ -35,11 +35,11 @@ int main(void) {
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
                         WINDOW *log = newwin(3, 25, 13, 1);
+                        wbkgd(player_board, WATER);
+                        wbkgd(enemy_board, WATER);
                         box(player_board, 0, 0);
                         box(enemy_board, 0, 0);
                         box(log, 0, 0);
-                        wbkgd(player_board, WATER);
-                        wbkgd(enemy_board, WATER);
                         wrefresh(player_board);
                         wrefresh(enemy_board);
                         wrefresh(log);
@@ -92,24 +92,53 @@ int main(void) {
 
 
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
-        // for each ship
-        pos front = {2, 5};
-        place_ship(&ships[4], front, false);
+        // TODO: add a tooltip window
         for (int i = 0; i < NUM_SHIPS; i++) {
-                // place the ship
                 int input = 0;
                 int x = 1, y = 1;
+                ship s = ships[i];
+                bool vertical = false;
                 bool valid_placement = false;
                 while (!valid_placement) {
-                        render_ship(board, &ships[i]);
+                        wclear(board);
+                        box(board, 0, 0);  // wclear erases box border
+                        pos front = {x - 1, y - 1};
+                        place_ship(&s, front, vertical);  // no regrets?
+                        render_ship(board, &s);
                         // TODO: move ships with arrow keys
                         // TODO: rotate ships with v key
                         // TODO: place ship with enter
                         // TODO: verify ship is not overlapping another one
                         // TODO: verify ship is not out of bounds
                         input = getch();
-                        if (input == '\n')
-                                break;
+                        switch (input) {
+                                case KEY_UP:
+                                        y > 1 ? y-- : y;
+                                        break;
+                                case KEY_DOWN:
+                                        y < 10 ? y++ : y;
+                                        break;
+                                case KEY_LEFT:
+                                        x > 1 ? x-- : x;
+                                        break;
+                                case KEY_RIGHT:
+                                        x < 10 ? x++ : x;
+                                        break;
+                                case 'v':
+                                        vertical = !vertical;
+                                        break;
+                                case '\n':
+                                        // verify placement
+                                        valid_placement = true;
+                                        // place ship
+                                        if (valid_placement)
+                                                place_ship(&ships[i], front, vertical);
+                                        break;
+                                default:
+                                        break;
+                        }
+                        // update render
+                        wrefresh(board);
                 }
         }
 }
@@ -130,7 +159,6 @@ void place_ship(ship *s, pos front, bool vertical) {
 
 void attack(WINDOW *board, WINDOW *log, pos *position) {
         int input = 0;
-        char ch = 0;
         // TODO: replace with `pos cursor`
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
@@ -139,7 +167,6 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
         while (!valid_input) {
                 // highlight current board tile
                 move(y, x);
-                ch = inch();
                 wattron(board, A_REVERSE);
                 mvwaddch(board, y, x, mvwinch(board, y, x) & A_CHARTEXT);
                 wrefresh(board);
@@ -163,18 +190,7 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                 x < 10 ? x++ : x;
                                 break;
                         case '\n':
-                                // TODO: verify input on only WATER spaces
-                                // verify input
-                                // should be ch == WATER, passing for now
-                                /*
-                                if (ch == ' ') {  // maybe if !in_pins
-                                        valid_input = true;
-                                } else {
-                                        // report invalid input
-                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
-                                        wrefresh(log);
-                                }
-                                */
+                                // TODO: verify input
                                 // update position
                                 position->x = --x;
                                 position->y = --y;

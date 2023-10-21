@@ -105,9 +105,7 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                         pos front = {x - 1, y - 1};
                         place_ship(&s, front, vertical);  // no regrets?
                         render_ship(board, &s);
-                        // TODO: move ships with arrow keys
-                        // TODO: rotate ships with v key
-                        // TODO: place ship with enter
+                        // TODO: freeze previous ship renders
                         // TODO: verify ship is not overlapping another one
                         // TODO: verify ship is not out of bounds
                         input = getch();

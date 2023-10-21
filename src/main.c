@@ -5,9 +5,17 @@
 #include "data.h"
 
 
+// render menu scene and pick a number representing a menu option
 int menu(void);
-void help(void);
+// check if tile
+//   has been struck before
+//   has a ship on it
+bool used_tile(pos tile, pins board);
+bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
+// mark a pin on the enemy board if occupied
+// TODO: change `pos *position` to `pins *board`
 void attack(WINDOW *board, WINDOW *log, pos *position);
+// place ships on player board
 void place_ship(ship *ship, pos p, bool vertical);
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]);
 
@@ -91,8 +99,10 @@ int main(void) {
 }
 
 
+// TODO: add a tooltip window
+// TODO: verify ship is not overlapping another one
+// TODO: verify ship is not out of bounds for movement and placement
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
-        // TODO: add a tooltip window
         for (int i = 0; i < NUM_SHIPS; i++) {
                 int input = 0;
                 int x = 1, y = 1;
@@ -100,14 +110,18 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                 bool vertical = false;
                 bool valid_placement = false;
                 while (!valid_placement) {
+                        // clear window for fresh redraw
                         wclear(board);
                         box(board, 0, 0);  // wclear erases box border
+                        // render previously placed ships
+                        for (int j = 0; j < i; j++)
+                                render_ship(board, &ships[j]);
+                        // render current ship being placed
                         pos front = {x - 1, y - 1};
-                        place_ship(&s, front, vertical);  // no regrets?
+                        // NOTE: this should be fine since it's a copy
+                        place_ship(&s, front, vertical);
                         render_ship(board, &s);
-                        // TODO: freeze previous ship renders
-                        // TODO: verify ship is not overlapping another one
-                        // TODO: verify ship is not out of bounds
+                        // handle input
                         input = getch();
                         switch (input) {
                                 case KEY_UP:

@@ -10,7 +10,7 @@ int menu(void);
 // check if tile
 //   has been struck before
 //   has a ship on it
-bool pos_equal(pos A, pos B);
+bool pos_equal(pos A, pos B);  // TODO: maybe convert to a macro? later.
 bool used_tile(pos tile, pins board);
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 // mark a pin on the enemy board if occupied
@@ -103,6 +103,17 @@ int main(void) {
 bool pos_equal(pos A, pos B) {
         if (A.x == B.x && A.y == B.y)
                 return true;
+        return false;
+}
+
+
+bool used_tile(pos tile, pins board) {
+        if (tile.x == NOPIN.x && tile.y == NOPIN.y)
+                return false;  // NOPIN is the starting tile, thus blank
+        for (int i = 0; i < 100; i++) {
+                if (pos_equal(tile, board[i]))
+                        return true;
+        }
         return false;
 }
 

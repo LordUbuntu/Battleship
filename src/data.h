@@ -33,7 +33,8 @@ typedef struct {
 
 
 // list of tiles that have been tried ("pinned")
-typedef pos pins[100];
+#define MAP_SIZE 100
+typedef pos pins[MAP_SIZE];
 #define NOPIN {-1,-1}
 #define DEFAULT_PINS { \
         NOPIN,NOPIN,NOPIN,NOPIN,NOPIN,NOPIN,NOPIN,NOPIN,NOPIN,NOPIN, \

@@ -110,7 +110,7 @@ bool pos_equal(pos A, pos B) {
 bool used_tile(pos tile, pins board) {
         if (tile.x == NOPIN.x && tile.y == NOPIN.y)
                 return false;  // NOPIN is the starting tile, thus blank
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < MAP_SIZE; i++) {
                 if (pos_equal(tile, board[i]))
                         return true;
         }

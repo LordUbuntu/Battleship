@@ -10,6 +10,7 @@ int menu(void);
 // check if tile
 //   has been struck before
 //   has a ship on it
+bool pos_equal(pos A, pos B);
 bool used_tile(pos tile, pins board);
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 // mark a pin on the enemy board if occupied
@@ -96,6 +97,13 @@ int main(void) {
         }
 
         stop_ncurses();
+}
+
+
+bool pos_equal(pos A, pos B) {
+        if (A.x == B.x && A.y == B.y)
+                return true;
+        return false;
 }
 
 

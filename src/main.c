@@ -10,8 +10,7 @@ int menu(void);
 // check if tile
 //   has been struck before
 //   has a ship on it
-bool pos_equal(pos A, pos B);  // TODO: maybe convert to a macro? later.
-bool used_tile(pos tile, pins board);
+bool used_tile(pos tile, map board);
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 // mark a pin on the enemy board if occupied
 // TODO: change `pos *position` to `pins *board`
@@ -30,8 +29,8 @@ int main(void) {
                 // INIT DATA
                 gamestate state = {
                         .ships = DEFAULT_SHIPS,
-                        .pboard = DEFAULT_PINS,
-                        .eboard = DEFAULT_PINS,
+                        .pboard = DEFAULT_MAP,
+                        .eboard = DEFAULT_MAP,
                         .turn = false,          // initially false for both
                         .winner = UNDECIDED,    // initially UNDECIDED (00) for both
                 };
@@ -100,22 +99,13 @@ int main(void) {
 }
 
 
-bool pos_equal(pos A, pos B) {
-        if (A.x == B.x && A.y == B.y)
-                return true;
-        return false;
-}
-
-
-bool used_tile(pos tile, pins board) {
-        pos none = NOPIN;  // {-1, -1}
-        if (tile.x == none.x && tile.y == none.y)
-                return false;  // NOPIN is the starting tile, thus blank
-        for (int i = 0; i < MAP_SIZE; i++) {
-                if (pos_equal(tile, board[i]))
-                        return true;
-        }
-        return false;
+// preconditions:
+//      `tile` is {x,y} at origin {0,0} in range [0,9]
+//      `board` is char** map with WATER,MISS,HIT chars
+bool used_tile(pos tile, map board) {
+        if (board[tile.y][tile.x] == WATER)
+                return false;  // if tile is water, it hasn't been used yet
+        return true;  // if its anything else (MISS/HIT/?), assume it's used
 }
 
 

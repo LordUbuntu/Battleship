@@ -60,7 +60,7 @@ void help(void) {
 
 // TODO: write a graphics proc to render all pins HIT/MISS based on ship data
 // NOTE: in the future, maybe a struct could avoid recalculating all 100 pins
-void render_board(WINDOW *win, pins board);
+void render_board(WINDOW *win, map board);
 
 
 int render_ship(WINDOW *win, ship *s) {

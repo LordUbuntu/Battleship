@@ -33,6 +33,32 @@ typedef struct {
 
 
 // list of tiles that have been tried ("pinned")
+// NOTE: changed to implicitly store the position (2d arr[y][x]) and instead
+//       record the state of each tile as WATER ('~'), MISS ('@'), or HIT ('*')
+// this way has the benefit of using much less space (char** array),
+// and being easier to check (just inch at {x+1,y+1}, or board[y][x])
+// and being easier to sync with actual board state (since it basically is)
+// AND being easier to render board, by just copying tiles onto window
+#define WATER '~'
+#define SHIP '#'
+#define HIT '*'
+#define MISS '@'
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 10
+typedef char board_t[BOARD_HEIGHT][BOARD_WIDTH];
+#define DEFAULT_BOARD { \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}, \
+        {WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER,WATER}  \
+}
+
 #define MAP_SIZE 100
 typedef pos pins[MAP_SIZE];
 #define NOPIN {-1,-1}

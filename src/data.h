@@ -6,6 +6,8 @@
 #include <stdbool.h>
 
 
+// TODO: before changing the data structure, try doing some math to find intersections quickly instead of using brute force...
+
 // TODO: just record
 // ship tiles as a pos
 // array, it will be a

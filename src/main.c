@@ -12,6 +12,7 @@ int menu(void);
 //   has a ship on it
 bool used_tile(pos tile, map board);
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
+bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
 // TODO: change `pos *position` to `pins *board`
 void attack(WINDOW *board, WINDOW *log, pos *position);
@@ -109,12 +110,13 @@ bool used_tile(pos tile, map board) {
 }
 
 
+// TODO: replace looping logic with intersect function
 // preconditions:
 //      `tile` is {x,y} at origin {0,0} in range [0,9]
 //      `ships` contains vertically/horizontally aligned ship structs
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
-                s = ships[i];
+                ship s = ships[i];
                 // vertical
                 if (s.back.x - s.front.x == 0) {
                         // check tiles for overlap
@@ -133,6 +135,26 @@ bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
                         }
                 }
         }
+        return false;
+}
+
+
+// determine if two lines intersect
+// preconditions:
+//      lines are vertical or horizontal only
+// this works by checking if the leftmost point of line 2 is bounded in the x of line
+// 1 (or if the leftmost point of line 1 is bounded in the x of line 2), then checks
+// if the uppermost point of line 2 is bounded in the y of line 1 (or if the
+// uppermost point of line 1 is bounded in the y of line 2). This is inclusive since
+// we're working with a grid of tiles (pos). This also works if one of the lines is a
+// point (the start and end of the line is the same tile on the grid). To see why
+// this works or doesn't think about line numbers and draw a few cases on some paper.
+bool intersect(pos a1, pos b1, pos a2, pos b2) {
+        // IF forward point bounded on x overlapping
+        if (a1.x <= a2.x <= b1.x || a2.x <= a1.x <= b2.x)
+                // AND forward point bounded on y overlapping
+                if (a1.y <= a2.y <= b1.y || a2.y <= a1.y <= b2.y)
+                        return true;
         return false;
 }
 

@@ -105,7 +105,35 @@ int main(void) {
 bool used_tile(pos tile, map board) {
         if (board[tile.y][tile.x] == WATER)
                 return false;  // if tile is water, it hasn't been used yet
-        return true;  // if its anything else (MISS/HIT/?), assume it's used
+        return true;  // assume used otherwise (MISS/HIT/SHIP/?)
+}
+
+
+// preconditions:
+//      `tile` is {x,y} at origin {0,0} in range [0,9]
+//      `ships` contains vertically/horizontally aligned ship structs
+bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
+        for (int i = 0; i < NUM_SHIPS; i++) {
+                s = ships[i];
+                // vertical
+                if (s.back.x - s.front.x == 0) {
+                        // check tiles for overlap
+                        int x = s.front.x;
+                        for (int y = 0; y < s.health; y++) {
+                                if (tile.x == x && tile.y == y + s.front.y)
+                                        return true;
+                        }
+                // horizontal
+                } else if (s.back.y - s.front.y == 0) {
+                        // check tiles for overlap
+                        int y = s.front.y;
+                        for (int x = 0; x < s.health; x++) {
+                                if (tile.x == x + s.front.x && tile.y == y)
+                                        return true;
+                        }
+                }
+        }
+        return false;
 }
 
 

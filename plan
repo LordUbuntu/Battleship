@@ -43,10 +43,10 @@ TODO:
     - every player interaction for enemy radar
       - then placing pins to display information
 - place ships and attack tiles
-  - place ship function
-    - one ship at a time
-    - should use render ship (not ships) to display that information
-    - render ship will render underlying water of map first
+  - place ship
+    - check ship
+    - ensure ships are in bounds
+    - ensure ships are not overlapping
   - attack tiles function
     - checks if selection is in pins, updates pos and adds to pins if it isn't
   OVERVIEW:

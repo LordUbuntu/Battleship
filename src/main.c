@@ -11,7 +11,7 @@ int menu(void);
 //   has been struck before
 //   has a ship on it
 bool used_tile(pos tile, map board);
-bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
+// bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
 // TODO: change `pos *position` to `pins *board`
@@ -114,6 +114,7 @@ bool used_tile(pos tile, map board) {
 // preconditions:
 //      `tile` is {x,y} at origin {0,0} in range [0,9]
 //      `ships` contains vertically/horizontally aligned ship structs
+/*
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
@@ -123,6 +124,7 @@ bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
         }
         return false;
 }
+*/
 
 
 // determine if two lines intersect

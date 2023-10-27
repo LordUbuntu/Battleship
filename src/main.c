@@ -190,6 +190,14 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                 case '\n':
                                         // verify placement
                                         valid_placement = true;
+                                        // check that none of the previous ships overlap this one
+                                        for (int j = 0; j < i; j++) {
+                                                if (intersect(s.front, s.back, ships[j].front, ships[j].back)) {
+                                                        valid_placement = false;
+                                                } else {
+                                                        mvwprintw(log, 1, 1, "Invalid Placement!");
+                                                }
+                                        }
                                         // place ship
                                         if (valid_placement)
                                                 place_ship(&ships[i], front, vertical);

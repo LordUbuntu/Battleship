@@ -117,23 +117,9 @@ bool used_tile(pos tile, map board) {
 bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 ship s = ships[i];
-                // vertical
-                if (s.back.x - s.front.x == 0) {
-                        // check tiles for overlap
-                        int x = s.front.x;
-                        for (int y = 0; y < s.health; y++) {
-                                if (tile.x == x && tile.y == y + s.front.y)
-                                        return true;
-                        }
-                // horizontal
-                } else if (s.back.y - s.front.y == 0) {
-                        // check tiles for overlap
-                        int y = s.front.y;
-                        for (int x = 0; x < s.health; x++) {
-                                if (tile.x == x + s.front.x && tile.y == y)
-                                        return true;
-                        }
-                }
+                bool is_ship_tile = intersect(s.front, s.back, tile, tile);
+                if (is_ship_tile)
+                        return true;
         }
         return false;
 }

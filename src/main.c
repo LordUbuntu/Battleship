@@ -14,7 +14,6 @@ bool used_tile(pos tile, map board);
 // bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
-// TODO: change `pos *position` to `pins *board`
 void attack(WINDOW *board, WINDOW *log, pos *position);
 // place ships on player board
 void place_ship(ship *ship, pos p, bool vertical);
@@ -138,10 +137,12 @@ bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
 // point (the start and end of the line is the same tile on the grid). To see why
 // this works or doesn't think about line numbers and draw a few cases on some paper.
 bool intersect(pos a1, pos b1, pos a2, pos b2) {
+        // whoops, I forgot that a <= b <= c doesn't work...
+        // has to be a <= b && b <= c...
         // IF forward point bounded on x overlapping
-        if (a1.x <= a2.x <= b1.x || a2.x <= a1.x <= b2.x)
+        if ((a1.x <= a2.x && a2.x <= b1.x) || (a2.x <= a1.x && a1.x <= b2.x))
                 // AND forward point bounded on y overlapping
-                if (a1.y <= a2.y <= b1.y || a2.y <= a1.y <= b2.y)
+                if ((a1.y <= a2.y && a2.y <= b1.y) || (a2.y <= a1.y && a1.y <= b2.y))
                         return true;
         return false;
 }
@@ -190,14 +191,6 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                 case '\n':
                                         // verify placement
                                         valid_placement = true;
-                                        // check that none of the previous ships overlap this one
-                                        for (int j = 0; j < i; j++) {
-                                                if (intersect(s.front, s.back, ships[j].front, ships[j].back)) {
-                                                        valid_placement = false;
-                                                } else {
-                                                        mvwprintw(log, 1, 1, "Invalid Placement!");
-                                                }
-                                        }
                                         // place ship
                                         if (valid_placement)
                                                 place_ship(&ships[i], front, vertical);

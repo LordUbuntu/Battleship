@@ -149,13 +149,12 @@ bool intersect(pos a1, pos b1, pos a2, pos b2) {
 
 
 // TODO: add a tooltip window
-// TODO: verify ship is not overlapping another one
 // TODO: verify ship is not out of bounds for movement and placement
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 int input = 0;
                 int x = 1, y = 1;
-                ship s = ships[i];
+                ship s = ships[i];  // copy so we don't modify ships early
                 bool vertical = false;
                 bool valid_placement = false;
                 while (!valid_placement) {
@@ -167,7 +166,6 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                 render_ship(board, &ships[j]);
                         // render current ship being placed
                         pos front = {x - 1, y - 1};
-                        // NOTE: this should be fine since it's a copy
                         place_ship(&s, front, vertical);
                         render_ship(board, &s);
                         // handle input

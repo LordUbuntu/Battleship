@@ -191,6 +191,9 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                 case '\n':
                                         // verify placement
                                         valid_placement = true;
+                                        for (int j = 0; j < i; j++)
+                                                if (intersect(s.front, s.back, ships[j].front, ships[j].back))
+                                                    valid_placement = false;
                                         // place ship
                                         if (valid_placement)
                                                 place_ship(&ships[i], front, vertical);

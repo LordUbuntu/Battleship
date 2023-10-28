@@ -68,10 +68,10 @@ int render_ship(WINDOW *win, ship *s) {
         // determine orientation
         if (s->back.x - s->front.x == 0) {
                 // draw vertical line
-                wvline(win, SHIP, s->back.y - s->front.y);
+                wvline(win, SHIP, s->back.y - s->front.y + 1);
         } else if (s->back.y - s->front.y == 0) {
                 // draw horizontal line
-                whline(win, SHIP, s->back.x - s->front.x);
+                whline(win, SHIP, s->back.x - s->front.x + 1);
         } else {
                 // bizzare unalignment, shouldn't happen!
                 return ERR;

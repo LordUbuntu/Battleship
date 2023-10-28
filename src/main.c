@@ -213,10 +213,10 @@ void place_ship(ship *s, pos front, bool vertical) {
         s->front.y = front.y;
         if (vertical) {
                 s->back.x = front.x;
-                s->back.y = front.y + s->health;
+                s->back.y = front.y + s->health - 1;
         } else {
                 s->back.y = front.y;
-                s->back.x = front.x + s->health;
+                s->back.x = front.x + s->health - 1;
         }
 }
 

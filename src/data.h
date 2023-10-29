@@ -6,20 +6,6 @@
 #include <stdbool.h>
 
 
-// TODO: before changing the data structure, try doing some math to find intersections quickly instead of using brute force...
-
-// TODO: just record
-// ship tiles as a pos
-// array, it will be a
-// lot easier than
-// trying to calculate
-// them every time. And
-// even better, I can
-// write a function to
-// do that after if I
-// need one.
-
-
 // (x, y) position
 typedef struct {
         unsigned x : 4;

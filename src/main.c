@@ -61,7 +61,7 @@ int main(void) {
                         while (game_running) {
                                 // player attack
                                 attack(enemy_board, log, &p);
-                                mvwprintw(log, 1, 1, "Struck Pos: %i,%i", p.x,p.y);
+                                mvwprintw(log, 1, 1, "Attack: %i,%i", p.x, p.y);
                                 wrefresh(log);
                                 game_running = false;  // temp
                                 // enemy attack
@@ -109,23 +109,6 @@ bool used_tile(pos tile, map board) {
 }
 
 
-// TODO: replace looping logic with intersect function
-// preconditions:
-//      `tile` is {x,y} at origin {0,0} in range [0,9]
-//      `ships` contains vertically/horizontally aligned ship structs
-/*
-bool ship_tile(pos tile, ship ships[static NUM_SHIPS]) {
-        for (int i = 0; i < NUM_SHIPS; i++) {
-                ship s = ships[i];
-                bool is_ship_tile = intersect(s.front, s.back, tile, tile);
-                if (is_ship_tile)
-                        return true;
-        }
-        return false;
-}
-*/
-
-
 // determine if two lines intersect
 // preconditions:
 //      lines are vertical or horizontal only
@@ -149,7 +132,6 @@ bool intersect(pos a1, pos b1, pos a2, pos b2) {
 
 
 // TODO: add a tooltip window
-// TODO: verify ship is not out of bounds for movement and placement
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 int input = 0;
@@ -175,15 +157,25 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                         y > 1 ? y-- : y;
                                         break;
                                 case KEY_DOWN:
-                                        y < 10 ? y++ : y;
+                                        if (vertical)
+                                                y + s.health - 1 < 10 ? y++ : y;
+                                        else
+                                                y < 10 ? y++ : y;
                                         break;
                                 case KEY_LEFT:
                                         x > 1 ? x-- : x;
                                         break;
                                 case KEY_RIGHT:
-                                        x < 10 ? x++ : x;
+                                        if (!vertical)
+                                                x + s.health - 1 < 10 ? x++ : x;
+                                        else
+                                                x < 10 ? x++ : x;
                                         break;
                                 case 'v':
+                                        if (vertical && x + s.health - 1 >= 10)
+                                                x = 10 - (s.health - 1);
+                                        if (!vertical && y + s.health - 1 >= 10)
+                                                y = 10 - (s.health - 1);
                                         vertical = !vertical;
                                         break;
                                 case '\n':

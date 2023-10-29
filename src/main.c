@@ -154,37 +154,43 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                         input = getch();
                         switch (input) {
                                 case KEY_UP:
+                                        // bound cursor to keep front of ship inside map
                                         y > 1 ? y-- : y;
                                         break;
                                 case KEY_DOWN:
+                                        // bound cursor to keep back of ship inside map
                                         if (vertical)
                                                 y + s.health - 1 < 10 ? y++ : y;
                                         else
                                                 y < 10 ? y++ : y;
                                         break;
                                 case KEY_LEFT:
+                                        // bound cursor to keep front of ship inside map
                                         x > 1 ? x-- : x;
                                         break;
                                 case KEY_RIGHT:
+                                        // bound cursor to keep back of ship inside map
                                         if (!vertical)
                                                 x + s.health - 1 < 10 ? x++ : x;
                                         else
                                                 x < 10 ? x++ : x;
                                         break;
                                 case 'v':
+                                        // correct placement of ship so rotation stays in bounds of map
                                         if (vertical && x + s.health - 1 >= 10)
                                                 x = 10 - (s.health - 1);
                                         if (!vertical && y + s.health - 1 >= 10)
                                                 y = 10 - (s.health - 1);
+                                        // and rotate ship
                                         vertical = !vertical;
                                         break;
                                 case '\n':
-                                        // verify placement
+                                        // verify placement of ship
                                         valid_placement = true;
                                         for (int j = 0; j < i; j++)
                                                 if (intersect(s.front, s.back, ships[j].front, ships[j].back))
                                                     valid_placement = false;
-                                        // place ship
+                                        // and place ship
                                         if (valid_placement)
                                                 place_ship(&ships[i], front, vertical);
                                         break;

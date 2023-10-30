@@ -10,11 +10,11 @@ int menu(void);
 // check if tile
 //   has been struck before
 //   has a ship on it
-bool used_tile(pos tile, map board);
+bool used_tile(int x, int y, map board);
 // bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
-void attack(WINDOW *board, WINDOW *log, pos *position);
+void attack(WINDOW *win, WINDOW *log, map board);
 // place ships on player board
 void place_ship(ship *ship, pos p, bool vertical);
 void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]);
@@ -37,8 +37,6 @@ int main(void) {
                 // MENU
                 int selection = menu();
                 if (selection == 0) {
-                        // setup local variables
-                        pos p;
                         // setup game scene
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
@@ -60,9 +58,7 @@ int main(void) {
                         bool game_running = true;
                         while (game_running) {
                                 // player attack
-                                attack(enemy_board, log, &p);
-                                mvwprintw(log, 1, 1, "Attack: %i,%i", p.x, p.y);
-                                wrefresh(log);
+                                attack(player_board, log, state.pboard);
                                 game_running = false;  // temp
                                 // enemy attack
                         }
@@ -102,8 +98,8 @@ int main(void) {
 // preconditions:
 //      `tile` is {x,y} at origin {0,0} in range [0,9]
 //      `board` is char** map with WATER,MISS,HIT chars
-bool used_tile(pos tile, map board) {
-        if (board[tile.y][tile.x] == WATER)
+bool used_tile(int x, int y, map board) {
+        if (board[y][x] == WATER)
                 return false;  // if tile is water, it hasn't been used yet
         return true;  // assume used otherwise (MISS/HIT/SHIP/?)
 }
@@ -217,25 +213,27 @@ void place_ship(ship *s, pos front, bool vertical) {
 }
 
 
-void attack(WINDOW *board, WINDOW *log, pos *position) {
+void attack(WINDOW *win, WINDOW *log, map board) {
         int input = 0;
         // TODO: replace with `pos cursor`
+        pos p = {1, 1};  // remember to translate [1, 10] -> [0, 9]
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
 
         // get input
         bool valid_input = false;
         while (!valid_input) {
-                // highlight current board tile
+                // highlight current window tile
                 move(y, x);
-                wattron(board, A_REVERSE);
-                mvwaddch(board, y, x, mvwinch(board, y, x) & A_CHARTEXT);
-                wrefresh(board);
+                wattron(win, A_REVERSE);
+                mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
+                wrefresh(win);
+                werase(log);
 
                 // get input
                 input = getch();
                 // clear highlight
-                wattroff(board, A_REVERSE);
-                mvwaddch(board, y, x, mvwinch(board, y, x) & A_CHARTEXT);
+                wattroff(win, A_REVERSE);
+                mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;
@@ -250,16 +248,21 @@ void attack(WINDOW *board, WINDOW *log, pos *position) {
                                 x < 10 ? x++ : x;
                                 break;
                         case '\n':
-                                // TODO: verify input
-                                // update position
-                                position->x = --x;
-                                position->y = --y;
-                                valid_input = true;
+                        // WARN: placeholder until networking
+                                // verify position
+                                if (used_tile(x - 1, y - 1, board))
+                                        valid_input = true;
+                                if (valid_input) {
+                                        mvwprintw(log, 1, 1, "Attack: %i,%i", x, y);
+                                } else {
+                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
+                                }
                                 break;
                         default:
                                 break;
                 }
-                wrefresh(board);
+                wrefresh(win);
+                wrefresh(log);
         }
 }
 

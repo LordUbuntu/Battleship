@@ -41,7 +41,7 @@ int main(void) {
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
                         WINDOW *log = newwin(3, 25, 13, 1);  // status log
-                        WINDOW *tip = newwin(16, 25, 1, 27);  // tooltip
+                        WINDOW *tip = newwin(8, 25, 1, 27);  // tooltip
                         wbkgd(player_board, WATER);
                         wbkgd(enemy_board, WATER);
                         box(player_board, 0, 0);
@@ -68,6 +68,15 @@ int main(void) {
                         // game loop (taking turns attacking)
                         bool game_running = true;
                         while (game_running) {
+                                // update tooltip for main game loop
+                                werase(tip);
+                                box(tip, 0, 0);
+                                mvwprintw(tip, 1, 1, "ENTER - attack tile");
+                                mvwprintw(tip, 2, 1, "UP    - move up");
+                                mvwprintw(tip, 3, 1, "DOWN  - move down");
+                                mvwprintw(tip, 4, 1, "LEFT  - move left");
+                                mvwprintw(tip, 5, 1, "RIGHT - move right");
+                                wrefresh(tip);
                                 // player attack
                                 attack(player_board, log, state.pboard);
                                 game_running = false;  // temp

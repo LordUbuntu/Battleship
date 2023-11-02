@@ -40,16 +40,27 @@ int main(void) {
                         // setup game scene
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
-                        WINDOW *log = newwin(3, 25, 13, 1);
+                        WINDOW *log = newwin(3, 25, 13, 1);  // status log
+                        WINDOW *tip = newwin(16, 25, 1, 27);  // tooltip
                         wbkgd(player_board, WATER);
                         wbkgd(enemy_board, WATER);
                         box(player_board, 0, 0);
                         box(enemy_board, 0, 0);
                         box(log, 0, 0);
+                        box(tip, 0, 0);
                         wrefresh(player_board);
                         wrefresh(enemy_board);
                         wrefresh(log);
+                        wrefresh(tip);
                         refresh();
+                        // update tooltip for ship placement mode
+                        mvwprintw(tip, 1, 1, "ENTER - place ship");
+                        mvwprintw(tip, 2, 1, "V     - rotate ship");
+                        mvwprintw(tip, 3, 1, "UP    - move ship up");
+                        mvwprintw(tip, 4, 1, "DOWN  - move ship down");
+                        mvwprintw(tip, 5, 1, "LEFT  - move ship left");
+                        mvwprintw(tip, 6, 1, "RIGHT - move ship right");
+                        wrefresh(tip);
                         // player place ships
                         place_ships(player_board, log, state.ships);
                         render_ships(player_board, state.ships);
@@ -136,9 +147,11 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                 bool vertical = false;
                 bool valid_placement = false;
                 while (!valid_placement) {
-                        // clear window for fresh redraw
+                        // refresh windows each action
                         wclear(board);
-                        box(board, 0, 0);  // wclear erases box border
+                        wclear(log);
+                        box(board, 0, 0);
+                        box(log, 0, 0);
                         // render previously placed ships
                         for (int j = 0; j < i; j++)
                                 render_ship(board, &ships[j]);
@@ -189,12 +202,17 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                         // and place ship
                                         if (valid_placement)
                                                 place_ship(&ships[i], front, vertical);
+                                        else {
+                                                mvwprintw(log, 1, 1, "Invalid Placement!");
+                                                wrefresh(log);
+                                        }
                                         break;
                                 default:
                                         break;
                         }
                         // update render
                         wrefresh(board);
+                        wrefresh(log);
                 }
         }
 }

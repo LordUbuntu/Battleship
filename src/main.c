@@ -115,16 +115,6 @@ int main(void) {
 }
 
 
-// preconditions:
-//      `tile` is {x,y} at origin {0,0} in range [0,9]
-//      `board` is char** map with WATER,MISS,HIT chars
-bool used_tile(int x, int y, map board) {
-        if (board[y][x] == WATER)
-                return false;  // if tile is water, it hasn't been used yet
-        return true;  // assume used otherwise (MISS/HIT/SHIP/?)
-}
-
-
 // determine if two lines intersect
 // preconditions:
 //      lines are vertical or horizontal only
@@ -240,6 +230,19 @@ void place_ship(ship *s, pos front, bool vertical) {
 }
 
 
+// preconditions:
+//      `tile` is {x,y} at origin {0,0} in range [0,9]
+//      `board` is char** map with WATER,MISS,HIT chars
+// WARN: FAULTY LOGIC, doesn't yet match visual state of board
+// TODO: implement render for board
+// TODO: sync visual and data boards
+bool used_tile(int x, int y, map board) {
+        if (board[y][x] == WATER)
+                return false;  // if tile is water, it hasn't been used yet
+        return true;  // assume used otherwise (MISS/HIT/SHIP/?)
+}
+
+
 void attack(WINDOW *win, WINDOW *log, map board) {
         int input = 0;
         // TODO: replace with `pos cursor`
@@ -255,12 +258,14 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                 mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
                 wrefresh(win);
                 werase(log);
+                box(log, 0, 0);
 
                 // get input
                 input = getch();
                 // clear highlight
                 wattroff(win, A_REVERSE);
-                mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
+                char ch = mvwinch(win, y, x) & A_CHARTEXT;
+                mvwaddch(win, y, x, ch);
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;
@@ -277,13 +282,10 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                         case '\n':
                         // WARN: placeholder until networking
                                 // verify position
-                                if (used_tile(x - 1, y - 1, board))
+                                if (ch == SHIP || ch == WATER)
                                         valid_input = true;
-                                if (valid_input) {
-                                        mvwprintw(log, 1, 1, "Attack: %i,%i", x, y);
-                                } else {
-                                        mvwprintw(log, 1, 1, "Invalid: %i,%i", x, y);
-                                }
+                                else
+                                        mvwprintw(log, 1, 1, "INVALID TILE");
                                 break;
                         default:
                                 break;

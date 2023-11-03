@@ -217,6 +217,7 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
 }
 
 
+// BUG: logic doesn't place ship tiles in right place
 void place_ship(map board, ship *s, pos front, bool vertical) {
         s->front.x = front.x;
         s->front.y = front.y;

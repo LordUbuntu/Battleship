@@ -248,6 +248,7 @@ void attack(WINDOW *win, WINDOW *log, map board) {
         // TODO: replace with `pos cursor`
         pos p = {1, 1};  // remember to translate [1, 10] -> [0, 9]
         int x = 1, y = 1;  // [1, 10] -> [0, 9]
+        char tile = WATER;
 
         // get input
         bool valid_input = false;
@@ -264,8 +265,7 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                 input = getch();
                 // clear highlight
                 wattroff(win, A_REVERSE);
-                char ch = mvwinch(win, y, x) & A_CHARTEXT;
-                mvwaddch(win, y, x, ch);
+                mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;
@@ -279,13 +279,24 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                         case KEY_RIGHT:
                                 x < 10 ? x++ : x;
                                 break;
-                        case '\n':
                         // WARN: placeholder until networking
-                                // verify position
-                                if (ch == SHIP || ch == WATER)
+                        case '\n':
+                                // verify position on board
+                                tile = board[y-1][x-1]; // note: this will be replaced by a network call later
+                                if (tile == SHIP || tile == WATER) {
                                         valid_input = true;
-                                else
+                                        mvwprintw(log, 1, 1, "HIT: %c %i,%i", tile, y-1, x-1);
+                                } else {
                                         mvwprintw(log, 1, 1, "INVALID TILE");
+                                }
+                                // update board tiles and window character
+                                if (tile == SHIP) {
+                                        board[y-1][x-1] = HIT;
+                                }
+                                if (tile == WATER) {
+                                        board[y-1][x-1] = MISS;
+                                }
+                                mvwaddch(win, y, x, board[y-1][x-1]);
                                 break;
                         default:
                                 break;

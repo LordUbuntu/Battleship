@@ -16,8 +16,8 @@ bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
 void attack(WINDOW *win, WINDOW *log, map board);
 // place ships on player board
-void place_ship(ship *ship, pos p, bool vertical);
-void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]);
+void place_ship(map board, ship *ship, pos p, bool vertical);
+void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIPS]);
 
 
 int main(void) {
@@ -62,7 +62,7 @@ int main(void) {
                         mvwprintw(tip, 6, 1, "RIGHT - move ship right");
                         wrefresh(tip);
                         // player place ships
-                        place_ships(player_board, log, state.ships);
+                        place_ships(player_board, log, state.pboard, state.ships);
                         render_ships(player_board, state.ships);
                         // enemy place ships
                         // game loop (taking turns attacking)
@@ -138,7 +138,7 @@ bool intersect(pos a1, pos b1, pos a2, pos b2) {
 
 
 // TODO: add a tooltip window
-void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
+void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 int input = 0;
                 int x = 1, y = 1;
@@ -147,17 +147,17 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                 bool valid_placement = false;
                 while (!valid_placement) {
                         // refresh windows each action
-                        wclear(board);
+                        wclear(win);
                         wclear(log);
-                        box(board, 0, 0);
+                        box(win, 0, 0);
                         box(log, 0, 0);
                         // render previously placed ships
                         for (int j = 0; j < i; j++)
-                                render_ship(board, &ships[j]);
+                                render_ship(win, &ships[j]);
                         // render current ship being placed
                         pos front = {x - 1, y - 1};
-                        place_ship(&s, front, vertical);
-                        render_ship(board, &s);
+                        place_ship(board, &s, front, vertical);
+                        render_ship(win, &s);
                         // handle input
                         input = getch();
                         switch (input) {
@@ -200,7 +200,7 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                                     valid_placement = false;
                                         // and place ship
                                         if (valid_placement)
-                                                place_ship(&ships[i], front, vertical);
+                                                place_ship(board, &ships[i], front, vertical);
                                         else {
                                                 mvwprintw(log, 1, 1, "Invalid Placement!");
                                                 wrefresh(log);
@@ -210,22 +210,30 @@ void place_ships(WINDOW *board, WINDOW *log, ship ships[static NUM_SHIPS]) {
                                         break;
                         }
                         // update render
-                        wrefresh(board);
+                        wrefresh(win);
                         wrefresh(log);
                 }
         }
 }
 
 
-void place_ship(ship *s, pos front, bool vertical) {
+void place_ship(map board, ship *s, pos front, bool vertical) {
         s->front.x = front.x;
         s->front.y = front.y;
         if (vertical) {
+                // ship
                 s->back.x = front.x;
                 s->back.y = front.y + s->health - 1;
+                // board
+                for (int y = s->front.y; y < s->back.y; y++)
+                        board[y][s->front.x] = SHIP;
         } else {
+                // ship
                 s->back.y = front.y;
                 s->back.x = front.x + s->health - 1;
+                // board
+                for (int x = s->front.x; x < s->back.x; x++)
+                        board[s->front.y][x] = SHIP;
         }
 }
 

@@ -155,8 +155,17 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
                         for (int j = 0; j < i; j++)
                                 render_ship(win, &ships[j]);
                         // render current ship being placed
-                        pos front = {x - 1, y - 1};
-                        place_ship(board, &s, front, vertical);
+                        s.front.x = x - 1;
+                        s.front.y = y - 1;
+                        if (vertical) {
+                                // ship
+                                s.back.x = s.front.x;
+                                s.back.y = s.front.y + s.health - 1;
+                        } else {
+                                // ship
+                                s.back.y = s.front.y;
+                                s.back.x = s.front.x + s.health - 1;
+                        }
                         render_ship(win, &s);
                         // handle input
                         input = getch();
@@ -200,7 +209,7 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
                                                     valid_placement = false;
                                         // and place ship
                                         if (valid_placement)
-                                                place_ship(board, &ships[i], front, vertical);
+                                                place_ship(board, &ships[i], s.front, vertical);
                                         else {
                                                 mvwprintw(log, 1, 1, "Invalid Placement!");
                                                 wrefresh(log);
@@ -217,8 +226,6 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
 }
 
 
-// BUG: logic doesn't place ship tiles in right place
-// BUG: overwrites ship each time, causing ghosting on board. Will need to fix how this works and seperate the placing of a ship from the rendering of one somehow? This should be called when the ship is placed, not just when it's shown. BEWARE: this was used as the show alias because of how show works too, so you'll need to fix that as well. I pity future me :^)
 void place_ship(map board, ship *s, pos front, bool vertical) {
         s->front.x = front.x;
         s->front.y = front.y;

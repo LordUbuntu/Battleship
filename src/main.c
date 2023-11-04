@@ -74,7 +74,8 @@ int main(void) {
                                 mvwprintw(tip, 5, 1, "RIGHT - move right");
                                 wrefresh(tip);
                                 // player attack
-                                attack(player_board, log, state.pboard);
+                                // temp: uses player board as enemy until network
+                                attack(enemy_board, log, state.pboard);
                                 game_running = false;  // temp
                                 // enemy attack
                         }
@@ -245,9 +246,7 @@ void place_ship(map board, ship *s, pos front, bool vertical) {
 
 void attack(WINDOW *win, WINDOW *log, map board) {
         int input = 0;
-        // TODO: replace with `pos cursor`
-        pos p = {1, 1};  // remember to translate [1, 10] -> [0, 9]
-        int x = 1, y = 1;  // [1, 10] -> [0, 9]
+        int x = 1, y = 1;  // cursor, remember [1, 10] -> [0, 9]
         char tile = WATER;
 
         // get input

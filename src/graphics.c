@@ -8,13 +8,8 @@
 #define SHIP '#'
 #define HIT '*'
 #define MISS '@'
-enum COLOR {
-        COLOR_WATER = 0,
-        COLOR_SHIP,
-        COLOR_FIRE,
-        COLOR_SPLASH,
-};
-// TODO: define and init colours
+#define OCEAN 0 // SHIP && WATER && MISS
+#define FIRE 1 // HIT
 
 
 void init_ncurses(void) {
@@ -22,9 +17,13 @@ void init_ncurses(void) {
         curs_set(FALSE);
         noecho();
         cbreak();
-        start_color();
         intrflush(stdscr, FALSE);
         keypad(stdscr, TRUE);
+        // init colors
+        // NOTE: doesn't work on my machine, need to test on another
+        start_color();
+        init_pair(OCEAN, COLOR_WHITE, COLOR_CYAN);
+        init_pair(FIRE, COLOR_RED, COLOR_CYAN);
 }
 
 

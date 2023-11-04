@@ -38,8 +38,8 @@ int main(void) {
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
                         WINDOW *log = newwin(3, 51, 13, 1);  // status log
                         WINDOW *tip = newwin(8, 25, 1, 27);  // tooltip
-                        wbkgd(player_board, WATER);
-                        wbkgd(enemy_board, WATER);
+                        wbkgd(player_board, WATER | COLOR_PAIR(OCEAN));
+                        wbkgd(enemy_board, WATER | COLOR_PAIR(OCEAN));
                         box(player_board, 0, 0);
                         box(enemy_board, 0, 0);
                         box(log, 0, 0);
@@ -58,8 +58,10 @@ int main(void) {
                         mvwprintw(tip, 6, 1, "RIGHT - move ship right");
                         wrefresh(tip);
                         // player place ships
+                        wattron(player_board, COLOR_PAIR(OCEAN));
                         place_ships(player_board, log, state.pboard, state.ships);
                         render_ships(player_board, state.ships);
+                        wattroff(player_board, COLOR_PAIR(OCEAN));
                         // enemy place ships
                         // game loop (taking turns attacking)
                         bool game_running = true;
@@ -75,7 +77,9 @@ int main(void) {
                                 wrefresh(tip);
                                 // player attack
                                 // temp: uses player board as enemy until network
+                                wattron(player_board, COLOR_PAIR(OCEAN));
                                 attack(enemy_board, log, state.pboard);
+                                wattroff(player_board, COLOR_PAIR(OCEAN));
                                 game_running = false;  // temp
                                 // enemy attack
                         }
@@ -134,7 +138,6 @@ bool intersect(pos a1, pos b1, pos a2, pos b2) {
 }
 
 
-// TODO: add a tooltip window
 void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIPS]) {
         for (int i = 0; i < NUM_SHIPS; i++) {
                 int input = 0;
@@ -149,8 +152,11 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
                         box(win, 0, 0);
                         box(log, 0, 0);
                         // render previously placed ships
-                        for (int j = 0; j < i; j++)
+                        for (int j = 0; j < i; j++) {
+                                wattron(win, COLOR_PAIR(OCEAN));
                                 render_ship(win, &ships[j]);
+                                wattroff(win, COLOR_PAIR(OCEAN));
+                        }
                         // render current ship being placed
                         s.front.x = x - 1;
                         s.front.y = y - 1;
@@ -163,7 +169,9 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
                                 s.back.y = s.front.y;
                                 s.back.x = s.front.x + s.health - 1;
                         }
+                        wattron(win, COLOR_PAIR(OCEAN));
                         render_ship(win, &s);
+                        wattroff(win, COLOR_PAIR(OCEAN));
                         // handle input
                         input = getch();
                         switch (input) {
@@ -205,9 +213,11 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
                                                 if (intersect(s.front, s.back, ships[j].front, ships[j].back))
                                                     valid_placement = false;
                                         // and place ship
-                                        if (valid_placement)
+                                        if (valid_placement) {
+                                                wattron(win, COLOR_PAIR(OCEAN));
                                                 place_ship(board, &ships[i], s.front, vertical);
-                                        else {
+                                                wattroff(win, COLOR_PAIR(OCEAN));
+                                        } else {
                                                 mvwprintw(log, 1, 1, "Invalid Placement!");
                                                 wrefresh(log);
                                         }
@@ -264,7 +274,9 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                 input = getch();
                 // clear highlight
                 wattroff(win, A_REVERSE);
+                wattron(win, COLOR_PAIR(OCEAN));
                 mvwaddch(win, y, x, mvwinch(win, y, x) & A_CHARTEXT);
+                wattroff(win, COLOR_PAIR(OCEAN));
                 switch (input) {
                         case KEY_UP:
                                 y > 1 ? y-- : y;
@@ -295,7 +307,9 @@ void attack(WINDOW *win, WINDOW *log, map board) {
                                 if (tile == WATER) {
                                         board[y-1][x-1] = MISS;
                                 }
+                                wattron(win, COLOR_PAIR(OCEAN));
                                 mvwaddch(win, y, x, board[y-1][x-1]);
+                                wattroff(win, COLOR_PAIR(OCEAN));
                                 break;
                         default:
                                 break;

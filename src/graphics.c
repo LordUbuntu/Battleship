@@ -8,7 +8,12 @@
 #define SHIP '#'
 #define HIT '*'
 #define MISS '@'
-// TODO: define enum for colours
+enum COLOR {
+        COLOR_WATER = 0,
+        COLOR_SHIP,
+        COLOR_FIRE,
+        COLOR_SPLASH,
+};
 // TODO: define and init colours
 
 

@@ -40,7 +40,7 @@ int main(void) {
                         // setup game scene
                         WINDOW *player_board = newwin(12, 12, 1, 1);
                         WINDOW *enemy_board = newwin(12, 12, 1, 14);
-                        WINDOW *log = newwin(3, 25, 13, 1);  // status log
+                        WINDOW *log = newwin(3, 51, 13, 1);  // status log
                         WINDOW *tip = newwin(8, 25, 1, 27);  // tooltip
                         wbkgd(player_board, WATER);
                         wbkgd(enemy_board, WATER);

@@ -218,6 +218,7 @@ void place_ships(WINDOW *win, WINDOW *log, map board, ship ships[static NUM_SHIP
 
 
 // BUG: logic doesn't place ship tiles in right place
+// BUG: overwrites ship each time, causing ghosting on board. Will need to fix how this works and seperate the placing of a ship from the rendering of one somehow? This should be called when the ship is placed, not just when it's shown. BEWARE: this was used as the show alias because of how show works too, so you'll need to fix that as well. I pity future me :^)
 void place_ship(map board, ship *s, pos front, bool vertical) {
         s->front.x = front.x;
         s->front.y = front.y;
@@ -226,14 +227,14 @@ void place_ship(map board, ship *s, pos front, bool vertical) {
                 s->back.x = front.x;
                 s->back.y = front.y + s->health - 1;
                 // board
-                for (int y = s->front.y; y < s->back.y; y++)
+                for (int y = s->front.y; y < s->back.y + 1; y++)
                         board[y][s->front.x] = SHIP;
         } else {
                 // ship
                 s->back.y = front.y;
                 s->back.x = front.x + s->health - 1;
                 // board
-                for (int x = s->front.x; x < s->back.x; x++)
+                for (int x = s->front.x; x < s->back.x + 1; x++)
                         board[s->front.y][x] = SHIP;
         }
 }

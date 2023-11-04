@@ -7,10 +7,6 @@
 
 // render menu scene and pick a number representing a menu option
 int menu(void);
-// check if tile
-//   has been struck before
-//   has a ship on it
-bool used_tile(int x, int y, map board);
 // bool ship_tile(pos tile, ship ships[static NUM_SHIPS]);
 bool intersect(pos a1, pos b1, pos a2, pos b2);
 // mark a pin on the enemy board if occupied
@@ -244,19 +240,6 @@ void place_ship(map board, ship *s, pos front, bool vertical) {
                 for (int x = s->front.x; x < s->back.x + 1; x++)
                         board[s->front.y][x] = SHIP;
         }
-}
-
-
-// preconditions:
-//      `tile` is {x,y} at origin {0,0} in range [0,9]
-//      `board` is char** map with WATER,MISS,HIT chars
-// WARN: FAULTY LOGIC, doesn't yet match visual state of board
-// TODO: implement render for board
-// TODO: sync visual and data boards
-bool used_tile(int x, int y, map board) {
-        if (board[y][x] == WATER)
-                return false;  // if tile is water, it hasn't been used yet
-        return true;  // assume used otherwise (MISS/HIT/SHIP/?)
 }
 
 

@@ -18,6 +18,8 @@
 
 
 ///// NETCAT for reference, most like my use-case
+// Options:
+// - Simplest implementation is a modified netcat using the example below, when a player chooses multiplayer they start a server process that then waits for a connection from a client, after which it essentially echoes all simple string messages between client and server to keep everything syncronized. Has the benefit of being easy to implement, easy message passing, easy to set up and tear down connections. Potentential cons are unclear right now.
 #include <netdb.h>
 #include <pthread.h>
 #include <stdio.h>

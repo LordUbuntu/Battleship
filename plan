@@ -1,5 +1,4 @@
-N
-TES:
+NOTES:
 - SHIFT + K over a symbol to see its manual
 - Plan, Design, then Develop
 
@@ -61,15 +60,9 @@ TODO:
   - automatic search for nearby partners (lan searching)
   - singleplayer functionality (connect to second local instance, basically echo with randomness)
   - multiplaye functionality (turn-based send-recv loop, negotiate initial connection with MAIN and PEER)
-- write a function to quickly calculate if a coordinate overlaps with a ship and which ship it overlaps with (pointer magic?)
 - implement game loop
-  - place ships
-    - handle input (input function)
-    - verify ships are not overlapping or out of bounds
-    - store ship positions in ship structs
   - mark ships on player map
   - attack loop
-    - handle input (input function)
     - verify tile on enemy side is a ship or not
     - update info on enemy local map and player local map
     - switch turns (how to record this?)

@@ -3,7 +3,7 @@ A game of strategy on the high sea!
 
 ## Backstory
 
-Many of my fondest memories of strategy games come from the game of Battleship. Considering its simple mechanics and fun play I though it a good candidate for a C project.
+Many of my fondest memories of strategy games come from the game of Battleship. Considering its simple mechanics and fun play I thought it a good candidate for a C project.
 
 Following the "Question Driven Development" process this time around.
 

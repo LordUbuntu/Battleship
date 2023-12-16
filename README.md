@@ -12,7 +12,7 @@ Following the "Question Driven Development" process this time around.
 The feature list for the **MVP** would be as follows.
 
 - [ ] NCurses UI
-  - [ ] Player and opponent boards
+  - [X] Player and opponent boards
   - [ ] Only updates chars that have changed on each turn
   - [ ] Game log stating outcome of attack, who took each turn, what was sunk, etc.
 - [ ] Main game

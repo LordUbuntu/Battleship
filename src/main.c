@@ -344,7 +344,6 @@ int menu(void) {
                         mvwprintw(menu, 3+(2*(i+1)), 3, "%s", option[i]);
                         wattroff(menu, A_REVERSE);
                 }
-                mvwprintw(menu, 10, 10, "%i", input);
                 wrefresh(menu);
                 input = wgetch(menu);
                 switch (input) {

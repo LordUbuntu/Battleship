@@ -33,8 +33,8 @@ typedef struct {
 
 
 // list of tiles that have been tried ("pinned")
-// NOTE: changed to implicitly store the position (2d arr[y][x]) and instead
-//       record the state of each tile as WATER ('~'), MISS ('@'), or HIT ('*')
+// changed to implicitly store the position (2d arr[y][x]) and instead
+// record the state of each tile as WATER ('~'), MISS ('@'), or HIT ('*')
 // this way has the benefit of using much less space (char** array vs pos* array)
 // and being easier to check (just inch at {x+1,y+1}, or board[y][x])
 // and being easier to sync with actual board state (since it basically is)

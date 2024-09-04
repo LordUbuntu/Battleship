@@ -9,3 +9,8 @@ todo:
     - get opponent move (input, network)
     - update game state (update, network)
   - end ncurses
+- distribute
+  - setup a cross-platform build toolchain (CMake?)
+    - https://www.reddit.com/r/C_Programming/comments/132ma0u/how_do_you_build_crossplatform_c_programs/?rdt=37606
+  - setup a system to name a target for compilation that includes crosss-compilation (with a pure text alternative for non-ncurses supporting targets?)
+  - create binaries for mutliple platforms (Mac, Windows, Linux, *BSD, Android, Etc)

@@ -36,6 +36,9 @@ void help(void) {
         while (true) {
                 if (input == 'q')
                         break;
+                // TODO:
+                // store this as a define and write a function to write it out
+                // within window bounds
                 mvwprintw(help, 1, 1, "The goal of battleship is to sink all");
                 mvwprintw(help, 2, 1, "of your opponent's pieces before they");
                 mvwprintw(help, 3, 1, "sink yours.");

@@ -2,18 +2,6 @@ NOTES:
 - SHIFT + K over a symbol to see its manual
 - Plan, Design, then Develop
 
-PLAN:
-  GAME FLOW:
-  - initialize data in main function (start/init)
-  - parse ommand line arguments
-  - start ncurses
-  - while the game loop is running
-    - update graphics   (render)
-    - handle user move  (input)
-    - get opponent move (input, network)
-    - update game state (update, network)
-  - end ncurses
-
 DESIGN:
   FUNCTIONS:
   - pass pointers to structs and other data entities

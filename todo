@@ -1,0 +1,11 @@
+todo:
+- implement main loop (see plan file)
+  - initialize data in main function (start/init)
+  - parse ommand line arguments
+  - start ncurses
+  - while the game loop is running
+    - update graphics   (render)
+    - handle user move  (input)
+    - get opponent move (input, network)
+    - update game state (update, network)
+  - end ncurses

@@ -61,15 +61,15 @@ typedef char map[MAP_HEIGHT][MAP_WIDTH];
 
 
 // winner/loser states
-#define UNDECIDED 0b00
-#define WINNER 0b01
-#define LOSER 0b10
+#define UNDECIDED 0
+#define WINNER 1
+#define LOSER 2
 
 
 // the notorious gamestate record
 typedef struct {
         ship ships[NUM_SHIPS];  // player's ships
-        // NOTE: both pins arrays should be syncronized on network
+        // NOTE: data is kept locally but changes are shared on network
         map pboard;  // enemy's pins in player's board
         map eboard;  // player's pins in enermy's board
         bool turn;    // player's turn, host always starts with this true

@@ -14,4 +14,8 @@
  * References:
  * - Simple netcat in C
  *   https://github.com/guzlewski/netcat
+ *
+ * Design Plan:
+ * The goal of the networking is a simple LAN network application.
+ * Each move, A sends a packet of the move they made to B. That simple.
  */

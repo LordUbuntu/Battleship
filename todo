@@ -1,4 +1,5 @@
 What is the quickest way I can complete this project so it can be done in a single weekend? I simply need to complete the curses interface, setup basic TPC networking, optimize for space, and then be done.
+Do I need this to be space optimized? Or optimized much at all?
 
 todo:
 - implement main loop (see plan file)

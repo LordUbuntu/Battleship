@@ -1,5 +1,5 @@
 CC=clang
-FLAGS=-std=c99 -Wall -Wextra
+FLAGS=-std=c99 -Wall -Wextra -Werror
 LIBS=-lncurses
 
 all:

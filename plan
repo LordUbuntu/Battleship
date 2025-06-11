@@ -57,3 +57,14 @@ LATER:
 - rework alot of repeated rendering code into specialized functions, instead of writing out ncurses calls directly
 - inline functions where it makes sense to, extract code into functions where it makes sense to.
 - document and improve readability
+
+
+
+
+
+
+
+
+- goal for now is just to add networking functionality, set default
+  memory (no dynamic memory needed in program afaik), finish gameplay
+  loop, test it, and release it finally!

@@ -116,6 +116,19 @@ int main(void) {
 }
 
 
+/* I HAVE WROTE CODE AND I MUST COMMENT
+ * Let me tell you how much I've come to love this code
+ * since I first wrote it... There are approximately
+ * 4713 bytes of text that fill this function's code
+ * complex. If the word 'love' was engraved on each
+ * bit of each char it would be equal to the love
+ * and pride I feel for this code at this micro-instant.
+ * For it. Love. Love. <3
+ *
+ * But in all seriousness though, this code was fun
+ * to write. It was a simple problem of geometry with
+ * a simple rewarding answer.
+ */
 // determine if two lines intersect
 // preconditions:
 //      lines are vertical or horizontal only

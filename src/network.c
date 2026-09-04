@@ -23,7 +23,28 @@ int main(int argc, char *argv[])
         int sockfd, newsockfd, portno;
         socklen_t clilen;
         socklen_t srvlen;
-        char buf[1024]; // may be excessive but can shrink down later alongside encoding methods
+        char buff[1024]; // may be excessive but can shrink down later alongside encoding methods
+        struct sockaddr_in serv_addr, cli_addr;
+        if (argc < 2) {
+                printf("no port provided\n");
+                exit(1);
+        }
+        portno - atoi(argv[2]);
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        if (sockfd < 0)
+                printf("couldn't open sockets\n);
+        server = gethostbyname(argv[1]);
+        if (server == NULL) {
+                printf("not a known host\n");
+                exit(1);
+        }
+
+
+
+
+
+
+
         // no 'return 0;' needed under normal program end conditions for C99+
-        printf("closed");
+        printf("closed\n");
 }
